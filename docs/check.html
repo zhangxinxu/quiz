@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>翻译内容格式检验工具</title>
+<style>
+body {
+	margin: 0;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	font: menu;
+}
+.header {
+	background-color: #333;
+	color: #fff;
+	text-align: center;
+	font-size: medium;
+	overflow: hidden;
+}
+.header-h {
+	line-height: 2;
+	margin: 1rem 0;
+	font-size: 2rem;
+}
+.main {
+	flex-grow: 1;
+	background: linear-gradient(#ccc, #ccc) no-repeat 33.3%, linear-gradient(#ccc, #ccc) no-repeat 66.6%;
+	background-color: #f5f5f5;
+	background-size: 1px 100%, 1px 100%;
+	font-size: medium;
+}
+.list {
+	float: left;
+	width: calc(100% / 3);
+	height: calc(100vh - 6rem);
+	position: relative;
+}
+.list-title {
+	font-size: 150%;
+	margin: 1rem 0;
+	line-height: 2rem;
+	text-align: center;
+}
+.list-body {
+	position: absolute;
+	left: 0; right: 0; top: 4rem; bottom: 1em;
+	padding: 0 1em;
+}
+.list-content {
+	height: 100%;
+	background-color: #fff;
+	border: 1px solid #aaa;
+	padding: .5rem;
+	box-sizing: border-box;
+	white-space: pre-wrap;
+	/*overflow: auto;*/
+}
+textarea.list-content {
+	width: 100%;
+	outline: 0;
+	font-size: 100%;
+	font-family: inherit;
+}
+.list-content:focus {
+	border-color: #2486ff;
+}
+.list-content.error {
+	border-color: #f4615c;
+}
+article.list-content:empty {
+	opacity: .5;
+}
+mark {
+	outline: 1px dotted red;
+}
+mark[data-title] {
+  text-indent: 0;
+  position: relative;
+  overflow: visible;
+}
+
+mark[data-title]::before,
+mark[data-title]::after {
+  position: absolute;
+  left: 50%;
+  -ms-pointer-events: none;
+  pointer-events: none;
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+  visibility: hidden; 
+}
+
+mark[data-title]::before {
+  content: attr(data-title);
+  top: -42px;
+  max-width: 250px;
+  padding: 6px 10px;
+  line-height: 18px;
+  border-radius: 3px;
+  background-color: #373c42;
+  text-align: left;
+  color: #fff;
+  font-size: 12px;
+  font-style: normal;
+  white-space: nowrap; }
+
+mark[data-title]::after {
+  content: '';
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  border: 6px solid transparent;
+  border-top-color: #373c42;
+  top: -12px; }
+
+mark[data-title]:hover::before,
+mark[data-title]:hover::after,
+mark[data-title]:focus::before,
+mark[data-title]:focus::after {
+  -webkit-transition: visibility .1s .1s;
+  transition: visibility .1s .1s;
+  visibility: visible; 
+}
+</style>
+</head>
+<body>
+<header class="header">
+	<h1 class="header-h">翻译内容格式检验工具</h1>
+</header>
+<main class="main">
+	<div class="list">
+		<h3 class="list-title">被检测文本</h3>
+		<div class="list-body">
+			<textarea id="eleInput" class="list-content" placeholder="这里粘贴翻译好的内容">在 LeanCloud上，，数据存储13是——围绕AVObject 进行3DAY的。。，每个 AVObject都包含,了与 JSON 兼容的key-value,对应的 ——数据。 数据是 schema-free 的， 你不需要１０００在每个 AVObject 上提前指定存《Stay hungry，stay foolish.》在哪些键 ， 只要直接设定对应的 key-value 即可。乔布斯那「Stay hungry，stay foolish.」句话是怎么说的？「Stay hungry,stay foolish。」
+
+嗨! 你知道嘛? 今天前台的小妹跟我说 "喵" 了哎!
+
+嗨!你知道嘛?今天前台的小妹跟我说"喵"了哎!
+
+核磁共振成像 (NMRI) 是什么原理都不知道? JFGI!
+
+核磁共振成像(NMRI)是什么原理都不知道?JFGI!</textarea>
+		</div>
+	</div>
+	<div class="list">
+		<h3 class="list-title">错误标记</h3>
+		<div class="list-body">
+			<article id="eleResult" class="list-content"></article>
+		</div>
+		
+	</div>
+	<div class="list">
+		<h3 class="list-title">正确结果</h3>
+		<div class="list-body">
+			<article id="eleOutput" class="list-content"></article>
+		</div>
+	</div>
+</main>
+<script>
+// 全角转半角
+DBC2SBC = function(str) {
+    var result = '';
+    var i, code;
+    if (str == '。') {
+    	return '.';
+    }
+    for (i = 0 ; i < str.length; i++) {
+        code = str.charCodeAt(i);
+        if (code >= 65281 && code <= 65373) {
+            result += String.fromCharCode(str.charCodeAt(i) - 65248);
+        } else if (code == 12288) {
+            result += String.fromCharCode(str.charCodeAt(i) - 12288 + 32);
+        } else {
+        	result += String.fromCharCode(str.charCodeAt(i));
+        }
+    }
+
+    return result;
+};
+SBC2DBC = function (str){
+	var result = ''; 
+    for (var i=0; i < str.length; i++) { 
+        if(str.charCodeAt(i)==32){ 
+            result = result + String.fromCharCode(12288); 
+        } 
+        if (str.charCodeAt(i) < 127) { 
+            result = result + String.fromCharCode(str.charCodeAt(i) + 65248); 
+        } 
+    } 
+    return result; 
+} 
+
+function charCheck(str) {
+	// 中文标点
+  	var strPunct = '！（）【】『』「」《》“”‘’；：，。？、';
+  	var strPunctHalf = '!()[]"\';:,.?';
+
+  	var regPunct = strPunct.split('').join('|');
+  	var regPunctHalf = strPunctHalf.split('').join('|\\');
+
+  	var regs = [{
+        reg: /(?:[\u4e00-\u9fa5]([A-Za-z])|([A-Za-z])[\u4e00-\u9fa5])/g,
+        txt: '中英文之间需要增加空格',
+        output: function (matches, $1) {
+        	if (/^[A-Za-z]/.test(matches)) {
+        		return matches.replace($1, $1 + ' ');
+        	}
+        	return matches.replace($1, ' ' + $1);
+        }
+    }, {
+        reg: /(?:[\u4e00-\u9fa5]\d+\s*|\s*\d+[\u4e00-\u9fa5])/g,
+        txt: '中文与数字之间需要增加空格',
+        output: function (matches) {
+        	return matches.replace(/(\d+)/g, ' $1 ').replace(/\s{2,}/, ' ');
+        }
+    }, {
+        reg: /\d[A-Z]+/g,
+        txt: '数字与单位之间需要增加空格',
+        output: function (matches) {
+        	return matches.replace(/(\d)/, '$1 ');
+        }
+    }, {
+        reg: new RegExp(`(?:[${regPunct}] +| +[${regPunct}])`, 'g'),
+        txt: '全角标点与其他字符之间不加空格',
+        output: function (matches) {
+        	return matches.trim();
+        }
+    }, {
+        reg: new RegExp(`(${regPunct})\\1+`, 'g'),
+        txt: '不重复使用标点符号',
+        output: function (matches) {
+        	return matches.slice(0, 1);
+        }
+    }, {
+        reg: /(?:\S(——)|(——)\S)/g,
+        txt: '破折号前后需要增加一个空格',
+        output: function (matches) {
+        	return matches.replace('——', ' —— ');
+        }
+    }, {
+        reg: new RegExp(`(?:[\u4e00-\u9fa5][a-z]*( *[${regPunctHalf}] *)|( *[${regPunctHalf}] *)[a-z]*[\u4e00-\u9fa5])`, 'gi'),
+        txt: '使用全角中文标点',
+        output: function (matches, $1) {
+        	return matches.replace($1, function (match1) {
+        		return ({
+        			'!': '！',
+        			'?': '？',
+        			'.': '。',
+        			',': '，',
+        			';': '；',
+        			':': '：',
+        			'(': '（',
+        			')': '）'
+        		})[match1.trim()] || match1;
+        	});
+        }
+    }, {
+        reg: /[\uFF10-\uFF19]+/g,
+        txt: '数字使用半角字符',
+        output: function (matches) {
+        	return DBC2SBC(matches);
+        }
+    }, {
+        reg: new RegExp(`([A-Za-z]+[${regPunct}|\\s])+[A-Za-z]*([${regPunct}|\\s][A-Za-z]+)+`, 'g'),
+        txt: '遇到完整的英文整句，其內容使用半角标点',
+        output: function (matches) {
+        	return DBC2SBC(matches);
+        }
+    }];
+	var result = str;
+	var output = str;
+
+  	if (str) {
+  		regs.forEach(function(regObj, index) {
+		    var reg = regObj.reg;
+		    // 一个替换，一个匹配
+		    result = result.replace(reg, function (matches) {
+		    	return `<mark title="${index}">${matches}</mark>`
+		    });
+		    // 输出过滤后的内容
+			output = output.replace(reg, regObj.output);
+		});
+  	}
+  // 输出
+  eleResult.innerHTML = result;
+  eleOutput.innerHTML = output;
+
+  if (result !== str) {
+    eleResult.classList.add('error');
+  } else {
+  	eleResult.classList.remove('error');
+  }
+
+  Array.from(eleResult.querySelectorAll('mark')).forEach(function (eleMark) {
+  	var title = eleMark.title;
+  	eleMark.setAttribute('data-title', regs[title].txt);
+  	eleMark.removeAttribute('title');
+  });
+}
+
+// 事件
+eleInput.addEventListener('input', function () {
+	charCheck(this.value.trim());
+});
+charCheck(eleInput.value.trim());
+</script>
+</body>
+</html>
