@@ -203,9 +203,9 @@ function charCheck(str) {
   	var regs = [{
         reg: /(?:[\u4e00-\u9fa5]([A-Za-z])|([A-Za-z])[\u4e00-\u9fa5])/g,
         txt: '中英文之间需要增加空格',
-        output: function (matches, $1) {
+        output: function (matches, $1, $2) {
         	if (/^[A-Za-z]/.test(matches)) {
-        		return matches.replace($1, $1 + ' ');
+        		return matches.replace($2, $2 + ' ');
         	}
         	return matches.replace($1, ' ' + $1);
         }
