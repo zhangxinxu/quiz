@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>傻白甜验证实现方式</title>
+  <style>
+  h1 small { font-size: 50%; color: gray; font-weight: 400; margin-left: 20px; }
+    .box { overflow: hidden; }
+    textarea{width: 50%; font-size: 16px; float: left; margin-right: 1em; line-height: 1.25; padding: 8px;}
+    .result{overflow: hidden; min-height: 12.5em; line-height: 1.25;  background-color: #fff; border: 1px solid #aaa; padding: 8px; white-space: pre-wrap;}
+    dd {margin-left: 20px;}
+    dd p{margin-top:5px;}
+    .tips{position: absolute; right: 5px; top: 5px; font-size: 12px; background-color: green; color: #fff; border-radius: 2px; padding: 1px 5px; display: none;}
+  </style>
+</head>
+<body>
+  <h1>傻白甜验证实现方式<small>一个正则表达式也不使用</small></h1>
+  <div class="box">
+    <textarea id="textarea" cols="80" rows="10">在 LeanCloud上，，数据存储13是——围绕AVObject 进行3DAY的。。，每个 AVObject都包含,了与 JSON 兼容的key-value,对应的 ——数据。 数据是 schema-free 的， 你不需要１０００在每个 AVObject 上提前指定存《Stay hungry，stay foolish.》在哪些键 ， 只要直接设定对应的 key-value 即可。乔布斯那「Stay hungry，stay foolish.」句话是怎么说的？「Stay hungry,stay foolish。」
+
+嗨! 你知道嘛? 今天前台的小妹跟我说 "喵" 了哎!
+嗨!你知道嘛?今天前台的小妹跟我说"喵"了哎!
+核磁共振成像 (NMRI) 是什么原理都不知道? JFGI!
+核磁共振成像(NMRI)是什么原理都不知道?JFGI!</textarea>
+    <div id="output" class="result"></div>
+  </div>
+  
+  <dl>
+    <dt><input id="radio1" type="radio" name="check" checked><label for="radio1">中英文之间需要增加空格</label></dt>
+    <dd><p><button data-type="1">检查</button></p></dd>
+    <dt><input id="radio2" type="radio" name="check"><label for="radio2">中文与数字之间需要增加空格</label></dt>
+    <dd><p><button disabled data-type="2">检查</button></p></dd>
+    <dt><input id="radio3" type="radio" name="check"><label for="radio3">数字与单位之间需要增加空格</label></dt>
+    <dd><p><button disabled data-type="3">检查</button></p></dd>
+    <dt><input id="radio4" type="radio" name="check"><label for="radio4">全角标点与其他字符之间不加空格</label></dt>
+    <dd><p><button disabled data-type="4">检查</button></p></dd>
+    <dt><input id="radio5" type="radio" name="check"><label for="radio5">不重复使用标点符号</label></dt>
+    <dd><p><button disabled data-type="5">检查</button></p></dd>
+    <dt><input id="radio6" type="radio" name="check"><label for="radio6">破折号前后需要增加一个空格</label></dt>
+    <dd><p><button disabled data-type="6">检查</button></p></dd>
+  </dl>
+  <div id="tips" class="tips">没有任何匹配</div>
+  <script>
+  	var strPunct = '！（）【】『』「」《》“”‘’；：，。？、';
+
+	// 判断字符类型
+	String.prototype.kind = function () {
+		if (strPunct.indexOf(this) != -1) {
+			return 'punct';
+		}
+		var code = this.charCodeAt(0);
+		if (code > 256) {
+			return 'zh';
+		}
+		if (code >= 48 && code <= 57) {
+			return 'num';
+		} else if (code >= 65 && code <= 90) {
+			return 'en-up';
+		} else if (code >= 97 && code <= 133) {
+			return 'en-low';
+		}
+		return 'unknown';
+	};
+
+  	Array.from(document.querySelectorAll('button')).forEach(function (button) {
+  		button.addEventListener('click', function () {
+  			var type = this.getAttribute('data-type');
+  			// 获取值
+			var value = textarea.value;
+			var arr = value.split('');
+			// 记录需要高亮的字符位置
+			var arrMark = [];
+
+			arr.forEach(function (str, index) {
+				var kind = str.kind();
+				if (type == '1') {
+					if (kind == 'zh') {
+						if (arr[index - 1] && arr[index - 1].kind().split('-')[0] == 'en') {
+							arrMark.push({
+								open: index - 1,
+								close: index
+							});
+						} else if (arr[index + 1] && arr[index + 1].kind().split('-')[0] == 'en') {
+							arrMark.push({
+								open: index,
+								close: index + 1
+							});
+						}
+					}
+					return;
+				}
+				if (type == '2') {
+					if (kind == 'zh') {
+						if (arr[index - 1] && arr[index - 1].kind() == 'num') {
+							arrMark.push({
+								open: index - 1,
+								close: index
+							});
+						} else if (arr[index + 1] && arr[index + 1].kind() == 'num') {
+							arrMark.push({
+								open: index,
+								close: index + 1
+							});
+						}
+					}
+					return;
+				}
+				if (type == '3') {
+					if (kind == 'num') {
+						if (arr[index - 1] && arr[index - 1].kind() == 'en-up') {
+							arrMark.push({
+								open: index - 1,
+								close: index
+							});
+						} else if (arr[index + 1] && arr[index + 1].kind() == 'en-up') {
+							arrMark.push({
+								open: index,
+								close: index + 1
+							});
+						}
+					}
+					return;
+				}
+				if (type == '4') {
+					if (kind == 'punct') {
+						if (arr[index - 1] == ' ') {
+							arrMark.push({
+								open: index - 1,
+								close: index
+							});
+						} else if (arr[index + 1] == ' ') {
+							arrMark.push({
+								open: index,
+								close: index + 1
+							});
+						}
+					}
+					return;
+				}
+				if (type == '5') {
+					if (kind == 'punct' && arr[index - 1] != str && arr[index + 1] == str) {
+						arrMark.push({
+							open: index,
+							close: index + 1
+						});
+					}
+					return;
+				}
+				if (type == '6') {
+					if (str == '—') {
+						if (arr[index - 1] == '—' && arr[index - 2] && arr[index - 2] != ' ') {
+							if (arr[index + 1] && arr[index + 1] != ' ') {
+								arrMark.push({
+									open: index - 2,
+									close: index + 1
+								});
+							} else {
+								arrMark.push({
+									open: index,
+									close: index
+								});
+							}
+						}
+					}
+				}
+			});
+
+			// 使用mark标签高亮
+  			if (arrMark.length == 0) {
+  				tips.style.display = 'block';
+  				setTimeout(function () { tips.style.display = ''; }, 3000);
+  				output.innerHTML = value;
+  			} else {
+  				output.innerHTML = arr.map(function (str, index) {
+  					arrMark.forEach(function (obj) {
+  						if (obj.open === index) {
+  							str = '<mark>' + str;
+  						} else if (obj.close === index) {
+  							str = str + '</mark>';
+  						}
+  					});
+  					return str;
+  				}).join('');
+  			}
+  		});
+  	});
+
+  	Array.from(document.querySelectorAll('input')).forEach(function (radio) {
+  		radio.addEventListener('click', function () {
+  			Array.from(document.querySelectorAll('button')).forEach(function (button) {
+  				button.disabled = true;
+  			});
+  			var button = document.querySelector('button[data-type="'+ radio.id.replace(/\D/g, '') +'"]');
+  			button.disabled = false;
+  		});
+  	});
+  </script>
+</body>
+</html>

@@ -201,7 +201,7 @@ function charCheck(str) {
   	var regPunctHalf = strPunctHalf.split('').join('|\\');
 
   	var regs = [{
-        reg: /(?:[\u4e00-\u9fa5]([A-Za-z])|([A-Za-z])[\u4e00-\u9fa5])/g,
+        reg: /[\u4e00-\u9fa5]([A-Za-z])|([A-Za-z])[\u4e00-\u9fa5]/g,
         txt: '中英文之间需要增加空格',
         output: function (matches, $1, $2) {
         	if (/^[A-Za-z]/.test(matches)) {
@@ -210,7 +210,7 @@ function charCheck(str) {
         	return matches.replace($1, ' ' + $1);
         }
     }, {
-        reg: /(?:[\u4e00-\u9fa5]\d+\s*|\s*\d+[\u4e00-\u9fa5])/g,
+        reg: /[\u4e00-\u9fa5]\d+\s*|\s*\d+[\u4e00-\u9fa5]/g,
         txt: '中文与数字之间需要增加空格',
         output: function (matches) {
         	return matches.replace(/(\d+)/g, ' $1 ').replace(/\s{2,}/, ' ');
@@ -222,7 +222,7 @@ function charCheck(str) {
         	return matches.replace(/(\d)/, '$1 ');
         }
     }, {
-        reg: new RegExp(`(?:[${regPunct}] +| +[${regPunct}])`, 'g'),
+        reg: new RegExp(`[${regPunct}] +| +[${regPunct}]`, 'g'),
         txt: '全角标点与其他字符之间不加空格',
         output: function (matches) {
         	return matches.trim();
@@ -234,13 +234,13 @@ function charCheck(str) {
         	return matches.slice(0, 1);
         }
     }, {
-        reg: /(?:\S(——)|(——)\S)/g,
+        reg: /\S——|——\S/g,
         txt: '破折号前后需要增加一个空格',
         output: function (matches) {
         	return matches.replace('——', ' —— ');
         }
     }, {
-        reg: new RegExp(`(?:[\u4e00-\u9fa5][a-z]*( *[${regPunctHalf}] *)|( *[${regPunctHalf}] *)[a-z]*[\u4e00-\u9fa5])`, 'gi'),
+        reg: new RegExp(`[\u4e00-\u9fa5][a-z]*( *[${regPunctHalf}] *)|( *[${regPunctHalf}] *)[a-z]*[\u4e00-\u9fa5]`, 'gi'),
         txt: '使用全角中文标点',
         output: function (matches, $1) {
         	return matches.replace($1, function (match1) {
