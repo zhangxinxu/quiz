@@ -7,7 +7,7 @@
 每期答疑会整理出对应文档，依次如下：
 
 * CSS小测第1期答疑文字版：https://www.zhangxinxu.com/wordpress/2019/01/css-quiz-1/
-* JS小测第27期答疑文字版：https://www.zhangxinxu.com/wordpress/2019/01/js-quiz-27/
-  基于答疑制作的可视化检测小工具：http://quiz.xiliz.com/check.html  基于<a href="https://github.com/zhangxinxu/quiz/issues/3#issuecomment-455041769">XboxYan</a>的回答基础上实现。
-  不使用正则傻白甜实现的检验工具：http://quiz.xiliz.com/check-foo.html
-  本地直播答疑录播地址：https://www.bilibili.com/video/av41104858/
+* JS小测第27期答疑文字版：https://www.zhangxinxu.com/wordpress/2019/01/js-quiz-27/ <br>
+  基于答疑制作的可视化检测小工具：http://quiz.xiliz.com/check.html  基于<a href="https://github.com/zhangxinxu/quiz/issues/3#issuecomment-455041769">XboxYan</a>的回答基础上实现。<br>
+  不使用正则傻白甜实现的检验工具：http://quiz.xiliz.com/check-foo.html <br>
+  本地直播答疑录播地址：https://www.bilibili.com/video/av41104858/ <br>
