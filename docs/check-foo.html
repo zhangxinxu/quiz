@@ -8,7 +8,7 @@
   h1 small { font-size: 50%; color: gray; font-weight: 400; margin-left: 20px; }
     .box { overflow: hidden; }
     textarea{width: 50%; font-size: 16px; float: left; margin-right: 1em; line-height: 1.25; padding: 8px;}
-    .result{overflow: hidden; min-height: 12.5em; line-height: 1.25;  background-color: #fff; border: 1px solid #aaa; padding: 8px; white-space: pre-wrap;}
+    .result{overflow: auto; height: 12.5em; line-height: 1.25;  background-color: #fff; border: 1px solid #aaa; padding: 8px; white-space: pre-wrap;}
     dd {margin-left: 20px;}
     dd p{margin-top:5px;}
     .tips{position: absolute; right: 5px; top: 5px; font-size: 12px; background-color: green; color: #fff; border-radius: 2px; padding: 1px 5px; display: none;}
@@ -40,6 +40,8 @@
     <dd><p><button disabled data-type="5">检查</button></p></dd>
     <dt><input id="radio6" type="radio" name="check"><label for="radio6">破折号前后需要增加一个空格</label></dt>
     <dd><p><button disabled data-type="6">检查</button></p></dd>
+    <dt><input id="radio7" type="radio" name="check"><label for="radio7">数字使用半角</label></dt>
+    <dd><p><button disabled data-type="7">检查</button></p></dd>
   </dl>
   <div id="tips" class="tips">没有任何匹配</div>
   <script>
@@ -51,6 +53,9 @@
 			return 'punct';
 		}
 		var code = this.charCodeAt(0);
+		if (code >= 65296 && code <= 65305) {
+			return 'num-full';
+		}
 		if (code > 256) {
 			return 'zh';
 		}
@@ -158,11 +163,19 @@
 								});
 							} else {
 								arrMark.push({
-									open: index,
+									open: index - 2,
 									close: index
 								});
 							}
 						}
+					}
+				}
+				if (type == '7') {
+					if (kind == 'num-full') {
+						arrMark.push({
+							open: index,
+							close: index
+						});
 					}
 				}
 			});
@@ -177,7 +190,8 @@
   					arrMark.forEach(function (obj) {
   						if (obj.open === index) {
   							str = '<mark>' + str;
-  						} else if (obj.close === index) {
+  						}
+  						if (obj.close === index) {
   							str = str + '</mark>';
   						}
   					});
