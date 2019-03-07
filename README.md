@@ -10,13 +10,13 @@
 
 <dl>
   <dt>2019-03-02 DOM小测第28期</dt>
-  <dd>* 本次直播答疑录播地址：https://www.bilibili.com/video/av45096006/
+  <dd>* 本次直播答疑录播地址：https://www.bilibili.com/video/av45096006/<br>
   * 本期答疑文字版：https://www.zhangxinxu.com/wordpress/2019/03/dom-contains-comparedocumentposition/</dd>
   <dt>2019-02-23 JS小测第28期</dt>
-  <dd>* 本次直播答疑录播地址：https://www.bilibili.com/video/av44442963/
+  <dd>* 本次直播答疑录播地址：https://www.bilibili.com/video/av44442963/<br>
   * 本期无文字版</dd>
  <dt>2019-02-16 CSS小测第2期</dt>
-  <dd>* 本次直播答疑录播地址：https://www.bilibili.com/video/av43725194/
+  <dd>* 本次直播答疑录播地址：https://www.bilibili.com/video/av43725194/<br>
   * 本期无文字版</dd>
 <dt>2019-01-26 DOM小测第27期</dt>
 <dd>* 本次直播答疑录播地址：https://www.bilibili.com/video/av41743974/<br>
