@@ -12,7 +12,7 @@
   <dt>2019-03-09 CSS小测第3期-HTML</dt>
   <dd>* 本次直播答疑录播地址：https://www.bilibili.com/video/av45750621/<br>
   * tabindex参考文章：https://www.zhangxinxu.com/wordpress/?p=6131<br>
-  * fieldset, legend元素：https://www.zhangxinxu.com/wordpress/?p=5474</dd>
+  * fieldset, legend元素：https://www.zhangxinxu.com/wordpress/?p=5730</dd>
   <dt>2019-03-02 DOM小测第28期</dt>
   <dd>* 本次直播答疑录播地址：https://www.bilibili.com/video/av45096006/<br>
   * 本期答疑文字版：https://www.zhangxinxu.com/wordpress/?p=8522</dd>
