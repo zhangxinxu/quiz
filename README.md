@@ -9,6 +9,10 @@
 每期答疑会整理出对应文档，依次如下：
 
 <dl>
+  <dt>2019-03-09 CSS小测第3期-HTML</dt>
+  <dd>* 本次直播答疑录播地址：https://www.bilibili.com/video/av45750621/<br>
+  * tabindex参考文章：https://www.zhangxinxu.com/wordpress/?p=6131<br>
+  * fieldset, legend元素：https://www.zhangxinxu.com/wordpress/?p=5474</dd>
   <dt>2019-03-02 DOM小测第28期</dt>
   <dd>* 本次直播答疑录播地址：https://www.bilibili.com/video/av45096006/<br>
   * 本期答疑文字版：https://www.zhangxinxu.com/wordpress/?p=8522</dd>
@@ -30,3 +34,20 @@
 <dd>* 本期答疑文字版：https://www.zhangxinxu.com/wordpress/2019/01/css-quiz-1/</dd>
 </dl>
   
+## 积分规则与奖励
+
+每位答题人员积分排行榜：https://www.zhangxinxu.com/php/quiz
+
+具体积分细则：
+
+<ol id="ruleList" class="demical">
+    <li>10分制，得分范围为0，2~11分；</li>
+    <li>当次小测不参与为0分；</li>
+    <li>每位参与小测人员，至少得2分；</li>
+    <li>第一位回答人员加1分，因此可能会得到11分；</li>
+    <li>每次答疑会公布得分要点；</li>
+    <li>每次答疑之后的回答或修改不算积分；</li>
+    <li>半年为一个计分周期；</li>
+    <li>半年积分前三名会有礼品奖励；</li>
+    <li>解释权归本人所有。</li>
+</ol>
