@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="zhangxinxu">
+<title>JS小测29单元测试</title>
+<link rel="stylesheet" href="https://www.zhangxinxu.com/GitHub/quickLayout/quick-layout-min.css">
+<style>
+h1 {
+	background-color: #333;
+	color: #fff;
+}
+textarea {
+	width: 100%;
+	height: 200px;
+	font-family: monaco, console, monospace;
+	box-sizing: border-box;
+	resize: vertical;
+}
+x-success {
+	display: block;
+	background-color: green;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 10px 0 0;
+}
+x-error {
+	display: block;
+	background-color: #EE5757;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 10px 0 0;
+}
+.result:empty::before {
+	display: block;
+	margin: 5px 10px 0 0;
+	content: '测试尚未开始';
+	color: gray;
+	text-align: center;
+	line-height: 100px;
+	background-color: #eee;
+}
+</style>
+</head>
+<body>
+<h1>JS小测29单元测试</h1>
+<div class="fix">
+	<h3>粘贴你的代码：</h3>
+	<textarea name="" id="code" cols="30" rows="10"></textarea>
+</div>
+<p><a href="javascript:" id="button" class="btn btn-blue">开始测试</a><span class="gray f14 ml20">如果无效，请检查命名或语法错误，或者在控制台运行，再点击这里的按钮</span></p>
+<div class="fix">
+	<div class="float-three">
+		<h3>equalObject测试结果</h3>
+		<div id="result1" class="result"></div>
+	</div>
+	<div class="float-three">
+		<h3>equalArray测试结果</h3>
+		<div id="result2" class="result"></div>
+	</div>
+	<div class="float-three">
+		<h3>equal测试结果</h3>
+		<div id="result3" class="result"></div>
+	</div>
+</div>
+
+<script>
+var obj1 = {
+	a: 1, b: 2
+}, obj2 = {
+	b: 2, a: 1
+}, obj3 = {
+	a: 1, b: 2, c: 3
+}, obj4 = {
+	a: 1, b: 2, c: []
+}, obj5 = {
+	a: 1, b: 2, c: []
+}, obj6 = {
+	a: 1, b: 2, c: [{
+		a: 1,
+		b: 2
+	}]
+}, obj7 = {
+	a: 1, b: 2, c: [{
+		b: 2,
+		a: 1
+	}]
+};
+// 数组
+var arr1 = [1, 2],
+arr2 = [1, '2'],
+arr3 = [2, 1],
+arr4 = [1, 2, 3],
+arr5 = [1, 2, {}],
+arr6 = [1, 2, {}];
+var arr7 = [1, 2, { a: 1, b: 2 }, 9],
+arr8 = [1, 2, { b: 2, a: 1 }, 9];
+
+var runEqualObject = function (fn) {
+	var html = '';
+	// 开始比较
+	var r1 = fn(obj1, obj2);
+	var text = `运行equalObject(${JSON.stringify(obj1)}, ${JSON.stringify(obj2)})，预期结果是true，实际结果是${r1}`;	
+	if (r1 === true) {
+		html += `<x-success>${text}</x-success>`;
+	} else {
+		html += `<x-error>${text}</x-error>`;
+	}
+	// 继续运行
+	var r2 = fn(obj1, obj3);
+	text = `运行equalObject(${JSON.stringify(obj1)}, ${JSON.stringify(obj3)})，预期结果是false，实际结果是${r2}`;	
+	if (r2 === false) {
+		html += `<x-success>${text}</x-success>`;
+	} else {
+		html += `<x-error>${text}</x-error>`;
+	}
+	// 继续运行
+	var r3 = fn(obj4, obj5);
+	text = `运行equalObject(${JSON.stringify(obj4)}, ${JSON.stringify(obj5)})，预期结果是false，实际结果是${r3}`;	
+	if (r3 === false) {
+		html += `<x-success>${text}</x-success>`;
+	} else {
+		html += `<x-error>${text}</x-error>`;
+	}
+
+	result1.innerHTML = html;
+};
+var runEqualArray = function (fn) {
+	var html = '';
+	// 开始比较
+	var r1 = fn(arr1, arr2);
+	var text = `运行equalArray(${JSON.stringify(arr1)}, ${JSON.stringify(arr2)})，预期结果是false，实际结果是${r1}`;	
+	if (r1 === false) {
+		html += `<x-success>${text}</x-success>`;
+	} else {
+		html += `<x-error>${text}</x-error>`;
+	}
+	// 继续比较
+	var r2 = fn(arr1, arr3);
+	var text = `运行equalArray(${JSON.stringify(arr1)}, ${JSON.stringify(arr3)})，预期结果是false，实际结果是${r2}`;	
+	if (r2 === false) {
+		html += `<x-success>${text}</x-success>`;
+	} else {
+		html += `<x-error>${text}</x-error>`;
+	}
+	// 继续比较
+	var r3 = fn(arr1, arr4);
+	var text = `运行equalArray(${JSON.stringify(arr1)}, ${JSON.stringify(arr4)})，预期结果是false，实际结果是${r3}`;	
+	if (r3 === false) {
+		html += `<x-success>${text}</x-success>`;
+	} else {
+		html += `<x-error>${text}</x-error>`;
+	}
+	// 继续比较
+	var r4 = fn(arr5, arr6);
+	var text = `运行equalArray(${JSON.stringify(arr5)}, ${JSON.stringify(arr6)})，预期结果是false，实际结果是${r4}`;	
+	if (r4 === false) {
+		html += `<x-success>${text}</x-success>`;
+	} else {
+		html += `<x-error>${text}</x-error>`;
+	}
+
+	result2.innerHTML = html;
+};
+var runEqual = function (fn) {
+	var html = '';
+	// 开始比较
+	var r1 = fn(obj1, obj2);
+	var text = `运行equal(${JSON.stringify(obj1)}, ${JSON.stringify(obj2)})，预期结果是true，实际结果是${r1}`;	
+	if (r1 === true) {
+		html += `<x-success>${text}</x-success>`;
+	} else {
+		html += `<x-error>${text}</x-error>`;
+	}
+	// 继续运行
+	var r2 = fn(obj1, obj3);
+	text = `运行equal(${JSON.stringify(obj1)}, ${JSON.stringify(obj3)})，预期结果是false，实际结果是${r2}`;	
+	if (r2 === false) {
+		html += `<x-success>${text}</x-success>`;
+	} else {
+		html += `<x-error>${text}</x-error>`;
+	}
+	// 继续运行
+	var r3 = fn(obj4, obj5);
+	text = `运行equal(${JSON.stringify(obj4)}, ${JSON.stringify(obj5)})，预期结果是true，实际结果是${r3}`;	
+	if (r3 === true) {
+		html += `<x-success>${text}</x-success>`;
+	} else {
+		html += `<x-error>${text}</x-error>`;
+	}
+	// 继续运行
+	var r4 = fn(obj6, obj7);
+	text = `运行equal(${JSON.stringify(obj6)}, ${JSON.stringify(obj7)})，预期结果是true，实际结果是${r4}`;	
+	if (r4 === true) {
+		html += `<x-success>${text}</x-success>`;
+	} else {
+		html += `<x-error>${text}</x-error>`;
+	}
+
+	// 开始比较
+	var r5 = fn(arr1, arr2);
+	var text = `运行equal(${JSON.stringify(arr1)}, ${JSON.stringify(arr2)})，预期结果是false，实际结果是${r5}`;	
+	if (r5 === false) {
+		html += `<x-success>${text}</x-success>`;
+	} else {
+		html += `<x-error>${text}</x-error>`;
+	}
+	// 继续比较
+	var r6 = fn(arr1, arr3);
+	var text = `运行equal(${JSON.stringify(arr1)}, ${JSON.stringify(arr3)})，预期结果是false，实际结果是${r6}`;	
+	if (r6 === false) {
+		html += `<x-success>${text}</x-success>`;
+	} else {
+		html += `<x-error>${text}</x-error>`;
+	}
+	// 继续比较
+	var r7 = fn(arr1, arr4);
+	var text = `运行equal(${JSON.stringify(arr1)}, ${JSON.stringify(arr4)})，预期结果是false，实际结果是${r7}`;	
+	if (r7 === false) {
+		html += `<x-success>${text}</x-success>`;
+	} else {
+		html += `<x-error>${text}</x-error>`;
+	}
+	// 继续比较
+	var r8 = fn(arr5, arr6);
+	var text = `运行equal(${JSON.stringify(arr5)}, ${JSON.stringify(arr6)})，预期结果是true，实际结果是${r8}`;	
+	if (r8 === true) {
+		html += `<x-success>${text}</x-success>`;
+	} else {
+		html += `<x-error>${text}</x-error>`;
+	}
+	// 继续比较
+	var r9 = fn(arr7, arr8);
+	var text = `运行equal(${JSON.stringify(arr7)}, ${JSON.stringify(arr8)})，预期结果是true，实际结果是${r9}`;	
+	if (r9 === true) {
+		html += `<x-success>${text}</x-success>`;
+	} else {
+		html += `<x-error>${text}</x-error>`;
+	}
+	// 继续比较
+	var r10 = fn(arr4, arr5);
+	var text = `运行equal(${JSON.stringify(arr4)}, ${JSON.stringify(arr5)})，预期结果是false，实际结果是${r10}`;	
+	if (r10 === false) {
+		html += `<x-success>${text}</x-success>`;
+	} else {
+		html += `<x-error>${text}</x-error>`;
+	}
+
+	result3.innerHTML = html;
+};
+
+button.onclick = function () {
+	if (code.value) {
+		window.eval(code.value);
+		if (typeof equalObject == 'function') {
+			runEqualObject(equalObject);
+		} else {
+			result1.innerHTML = '<x-error>方法无法识别</x-error>';
+		}
+		if (typeof equalArray == 'function') {
+			runEqualArray(equalArray);
+		} else {
+			result2.innerHTML = '<x-error>方法无法识别</x-error>';
+		}
+		if (typeof equal == 'function') {
+			runEqual(equal);
+		} else {
+			result3.innerHTML = '<x-error>方法无法识别</x-error>';
+		}
+	}
+};
+</script>
+</body>
+</html>
