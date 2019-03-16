@@ -22,18 +22,18 @@ x-success {
 	background-color: green;
 	color: #fff;
 	padding: 10px;
-	margin: 5px 10px 0 0;
+	margin: 5px 0 0 0;
 }
 x-error {
 	display: block;
 	background-color: #EE5757;
 	color: #fff;
 	padding: 10px;
-	margin: 5px 10px 0 0;
+	margin: 5px 0 0 0;
 }
 .result:empty::before {
 	display: block;
-	margin: 5px 10px 0 0;
+	margin: 5px 0 0 0;
 	content: '测试尚未开始';
 	color: gray;
 	text-align: center;
@@ -45,22 +45,20 @@ x-error {
 <body>
 <h1>JS小测29单元测试</h1>
 <div class="fix">
-	<h3>粘贴你的代码：</h3>
-	<textarea name="" id="code" cols="30" rows="10"></textarea>
-</div>
-<p><a href="javascript:" id="button" class="btn btn-blue">开始测试</a><span class="gray f14 ml20">如果无效，请检查命名或语法错误，或者在控制台运行，再点击这里的按钮</span></p>
-<div class="fix">
-	<div class="float-three">
-		<h3>equalObject测试结果</h3>
-		<div id="result1" class="result"></div>
+	<div class="float-two">
+		<h3>粘贴你的代码：</h3>
+		<textarea name="" id="code" cols="30" rows="10"></textarea>
+		<p><a href="javascript:" id="button" class="btn btn-blue">开始测试</a><span class="gray f14 ml20">如果无效，请检查命名或语法错误，或者在控制台运行，再点击这里的按钮</span></p>
 	</div>
-	<div class="float-three">
-		<h3>equalArray测试结果</h3>
-		<div id="result2" class="result"></div>
-	</div>
-	<div class="float-three">
-		<h3>equal测试结果</h3>
-		<div id="result3" class="result"></div>
+	<div class="float-two">
+		<div class="pl15">
+			<h3>equalObject测试结果</h3>
+			<div id="result1" class="result"></div>
+			<h3>equalArray测试结果</h3>
+			<div id="result2" class="result"></div>
+			<h3>equal测试结果</h3>
+			<div id="result3" class="result"></div>
+		</div>
 	</div>
 </div>
 
