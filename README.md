@@ -9,6 +9,8 @@
 每期答疑会整理出对应文档，依次如下：
 
 <dl>
+  <dt>2019-04-13 DOM小测第30期</dt>
+  <dd>* 本次直播答疑录播地址：https://www.bilibili.com/video/av49150425/</dd>
   <dt>2019-04-06 JS小测第30期</dt>
   <dd>* 本次直播答疑录播地址：https://www.bilibili.com/video/av48740887/</dd>
   <dt>2019-03-31 CSS小测第4期</dt>
