@@ -10,8 +10,8 @@
 
 <dl>
   <dt>2019-04-20 CSS小测第5期</dt>
-  <dd>* 本次直播答疑录播地址：https://www.bilibili.com/video/av49911230/
-  * CSS Grid布局参考文章：https://www.zhangxinxu.com/wordpress/2018/11/display-grid-css-css3/
+  <dd>* 本次直播答疑录播地址：https://www.bilibili.com/video/av49911230/<br>
+  * CSS Grid布局参考文章：https://www.zhangxinxu.com/wordpress/2018/11/display-grid-css-css3/<br>
   * CSS Flex布局参考文章：https://www.zhangxinxu.com/wordpress/2018/10/display-flex-css3-css/</dd>
   <dt>2019-04-13 DOM小测第30期</dt>
   <dd>* 本次直播答疑录播地址：https://www.bilibili.com/video/av49150425/</dd>
