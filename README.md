@@ -9,6 +9,8 @@
 每期答疑会整理出对应文档，依次如下：
 
 <dl>
+  <dt>2019-04-27 JS小测31期</dt>
+  <dd>* 本次直播答疑视频地址：https://www.bilibili.com/video/av50616143</dd>
   <dt>2019-04-20 CSS小测第5期</dt>
   <dd>* 本次直播答疑录播地址：https://www.bilibili.com/video/av49911230/<br>
   * CSS Grid布局参考文章：https://www.zhangxinxu.com/wordpress/2018/11/display-grid-css-css3/<br>
