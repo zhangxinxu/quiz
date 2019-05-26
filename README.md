@@ -9,6 +9,8 @@
 每期答疑会整理出对应文档，依次如下：
 
 <dl>
+  <dt>2019-05-27 JS小测32期</dt>
+  <dd>* 本次答疑直播回看地址：https://www.bilibili.com/video/av53669812</dd>
   <dt>2019-05-18 CSS小测第6期</dt>
   <dd>* 本次答疑直播地址：https://www.bilibili.com/video/av52817099/</dd>
   <dt>2019-05-12 DOM小测31期</dt>
