@@ -11,7 +11,7 @@
 ### 2019年下半学期
 
 <dl>
-  <dt>2019--7=21 CSS小测第9期</dt>
+  <dt>2019-07-20 CSS小测第9期</dt>
   <dd>* 本次答疑直播回看地址：https://www.bilibili.com/video/av59949127</dd>
   <dt>2019-07-13 DOM小测34期</dt>
   <dd>* 本次答疑直播回看地址：https://www.bilibili.com/video/av58980453/</dd>
