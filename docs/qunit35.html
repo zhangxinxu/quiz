@@ -13,6 +13,7 @@ h1 {
 input {
 	width: 50%;
 	box-sizing: border-box;
+	font-family: monaco, console, monospace;
 }
 textarea {
 	width: 100%;
@@ -43,6 +44,7 @@ x-error {
 	text-align: center;
 	line-height: 100px;
 	background-color: #eee;
+	font-family: monaco, console, monospace;
 }
 </style>
 </head>
@@ -57,7 +59,7 @@ x-error {
 };</textarea>
 		
 		<h3>第4小题测试：</h3>
-		<p><input id="input" class="p5" value="?a=1&b=2&url=a.html?b=1" readonly=""></p>
+		<p><input id="input" class="p5" value="?a=1&b=2&url=a.html?b=1&c=1" readonly=""></p>
 		<textarea name="" id="code" cols="30" rows="10">var params2object = function () {
     // 你的代码粘贴在这里，return返回值用来测试比对
 
@@ -115,17 +117,18 @@ button.onclick = function () {
 		var resultTrue = {
 			a: "1",
 			b: "2",
-			url: "a.html?b=1"
+			url: "a.html?b=1",
+			c: "1"
 		};
 
 		var r = false;
-		if (typeof obj == 'object' && Object.keys(obj).length == 3 && obj['a'] == resultTrue['a'] && obj['b'] == resultTrue['b'] && obj['url'] == resultTrue['url']) {
+		if (typeof obj == 'object' && Object.keys(obj).length == 4 && obj['a'] == resultTrue['a'] && obj['b'] == resultTrue['b'] && obj['c'] == resultTrue['c'] && obj['url'] == resultTrue['url']) {
 			r = true;
 		}
 
 		var html = '';
 		// 开始比较
-		var text = `成功运行params2object()，<br>预期结果是{"a": "1","b": "2","url": "a.html?b=1"}，<br>实际结果是${JSON.stringify(obj)}，<br>两者`;
+		var text = `成功运行params2object()，<br>预期结果是{"a":"1","b":"2","url":"a.html?b=1","c":"1"}，<br>实际结果是${JSON.stringify(obj)}，<br>两者`;
 		if (r === true) {
 			text += '相等，测试通过。';
 			html += `<x-success>${text}</x-success>`;
