@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="zhangxinxu">
+<title>JS小测35单元测试</title>
+<link rel="stylesheet" href="https://www.zhangxinxu.com/GitHub/quickLayout/quick-layout-min.css">
+<style>
+h1 {
+	background-color: #333;
+	color: #fff;
+}
+input {
+	width: 50%;
+	box-sizing: border-box;
+}
+textarea {
+	width: 100%;
+	height: 200px;
+	font-family: monaco, console, monospace;
+	box-sizing: border-box;
+	resize: vertical;
+}
+x-success {
+	display: block;
+	background-color: green;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 0 0 0;
+}
+x-error {
+	display: block;
+	background-color: #EE5757;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 0 0 0;
+}
+.result:empty::before {
+	display: block;
+	margin: 5px 0 0 0;
+	content: '测试尚未开始';
+	color: gray;
+	text-align: center;
+	line-height: 100px;
+	background-color: #eee;
+}
+</style>
+</head>
+<body>
+<h1>JS小测35单元测试</h1>
+<div class="fix">
+	<div class="float-two">
+		<h3>第2小题测试：</h3>
+		<textarea name="" id="func" cols="30" rows="10">var object2params = function () {
+    // 你的代码粘贴在这里，return返回值用来测试比对
+
+};</textarea>
+		
+		<h3>第4小题测试：</h3>
+		<p><input id="input" class="p5" value="?a=1&b=2&url=a.html?b=1" readonly=""></p>
+		<textarea name="" id="code" cols="30" rows="10">var params2object = function () {
+    // 你的代码粘贴在这里，return返回值用来测试比对
+
+};</textarea>
+		<p><a href="javascript:" id="button" class="btn btn-blue">开始测试</a><span class="gray f14 ml20">如果无效，请检查命名或语法错误，或者在控制台运行，再点击这里的按钮</span></p>
+	</div>
+	<div class="float-two">
+		<div class="pl15">
+			<h3>object2params测试结果</h3>
+			<div id="result1" class="result"></div>
+			<h3>params2object测试结果</h3>
+			<div id="result2" class="result"></div>
+		</div>
+	</div>
+</div>
+
+<script>
+if (!location.search) {
+	location.search = input.value;
+}
+
+button.onclick = function () {
+	if (func.value) {
+		window.eval(func.value);
+
+		object1 = {
+			userid: 123,
+			username: '王二',
+			tel: '13208033621'
+		};
+
+		var str = object2params();
+		var strExpect = 'userid=123&username=%E7%8E%8B%E4%BA%8C&tel=13208033621';
+
+		var r1 = (str == strExpect);
+
+		var html1 = '';
+		// 开始比较
+		var text1 = `成功运行object2params()，<br>预期结果是${strExpect}，<br>实际结果是${str}，<br>两者`;
+		if (r1 === true) {
+			text1 += '相等，测试通过。';
+			html1 += `<x-success>${text1}</x-success>`;
+		} else {
+			text1 += '不相等，测试不通过。';
+			html1 += `<x-error>${text1}</x-error>`;
+		}
+		result1.innerHTML = html1;
+	}
+
+	if (code.value) {
+		window.eval(code.value);
+
+		var obj = params2object();
+
+		var resultTrue = {
+			a: "1",
+			b: "2",
+			url: "a.html?b=1"
+		};
+
+		var r = false;
+		if (typeof obj == 'object' && Object.keys(obj).length == 3 && obj['a'] == resultTrue['a'] && obj['b'] == resultTrue['b'] && obj['url'] == resultTrue['url']) {
+			r = true;
+		}
+
+		var html = '';
+		// 开始比较
+		var text = `成功运行params2object()，<br>预期结果是{"a": "1","b": "2","url": "a.html?b=1"}，<br>实际结果是${JSON.stringify(obj)}，<br>两者`;
+		if (r === true) {
+			text += '相等，测试通过。';
+			html += `<x-success>${text}</x-success>`;
+		} else {
+			text += '不相等，测试不通过。';
+			html += `<x-error>${text}</x-error>`;
+		}
+
+		result2.innerHTML = html;
+	}
+};
+</script>
+</body>
+</html>
