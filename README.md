@@ -13,6 +13,7 @@
 <dl>
   <dt>2019-07-27 JS小测35期</dt>
   <dd>* 本次答疑直播回看地址：https://www.bilibili.com/video/av60953633</dd>
+  <dd>* 视频中的单元测试地址：http://quiz.xiliz.com/qunit35.html</dd>
   <dt>2019-07-20 CSS小测第9期</dt>
   <dd>* 本次答疑直播回看地址：https://www.bilibili.com/video/av59949127</dd>
   <dt>2019-07-13 DOM小测34期</dt>
