@@ -11,6 +11,8 @@
 ### 2019年下半学期
 
 <dl>
+  <dt>2019-08-03 DOM小测35期</dt>
+  <dd>* 本次答疑直播回看地址：https://www.bilibili.com/video/av61984706</dd>
   <dt>2019-07-27 JS小测35期</dt>
   <dd>* 本次答疑直播回看地址：https://www.bilibili.com/video/av60953633</dd>
   <dd>* 视频中的单元测试地址：http://quiz.xiliz.com/qunit35.html</dd>
