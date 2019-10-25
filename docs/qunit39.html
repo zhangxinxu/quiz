@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="zhangxinxu">
+<title>JS小测39单元测试</title>
+<link rel="stylesheet" href="https://www.zhangxinxu.com/GitHub/quickLayout/quick-layout-min.css">
+<style>
+h1 {
+	background-color: #333;
+	color: #fff;
+}
+input {
+	width: 50%;
+	box-sizing: border-box;
+	font-family: monaco, console, monospace;
+}
+textarea {
+	width: 100%;
+	height: 200px;
+	font-family: monaco, console, monospace;
+	box-sizing: border-box;
+	resize: vertical;
+}
+x-success {
+	display: block;
+	background-color: green;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 0 0 0;
+}
+x-error {
+	display: block;
+	background-color: #EE5757;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 0 0 0;
+}
+.result:empty::before {
+	display: block;
+	margin: 5px 0 0 0;
+	content: '测试尚未开始';
+	color: gray;
+	text-align: center;
+	line-height: 100px;
+	background-color: #eee;
+	font-family: monaco, console, monospace;
+}
+</style>
+</head>
+<body>
+<h1>JS小测39单元测试</h1>
+<div class="fix">
+	<div class="float-two">
+		<h3>第1小题测试：</h3>
+		<p>// colorPad方法粘贴在这里</p>
+		<textarea name="" id="func" cols="30" rows="10"></textarea>
+		
+		<h3>第3小题测试：</h3>
+		<p>// colorRange代码粘贴在这里</p>
+		<textarea name="" id="code" cols="30" rows="10"></textarea>
+		<p><a href="javascript:" id="button" class="btn btn-blue">开始测试</a><span class="gray f14 ml20">如果无效，请检查命名或语法错误，或者在控制台运行，再点击这里的按钮</span></p>
+	</div>
+	<div class="float-two">
+		<div class="pl15">
+			<h3>colorPad方法测试结果</h3>
+			<div id="result1" class="result"></div>
+			<h3>colorRange方法测试结果</h3>
+			<div id="result2" class="result"></div>
+		</div>
+	</div>
+</div>
+
+<script>
+button.onclick = function () {
+	if (func.value) {
+		window.eval(func.value);
+
+		var inOut = {
+			'0': '#000000',
+			'3': '#333333',
+			'#0': '#000000',
+			'#3': '#333333',
+			'#f1': '#f1f1f1',
+			'#A1f': '#aa11ff',
+			'#f1f1F2': '#f1f1f2',
+			'f1f1F2': '#f1f1f2',
+			'#m1f1F2': '#000000',
+			'#f1f1f26': '#000000'
+		};
+
+
+		// 开始比较
+		var html1 = '';
+		for (var strIn in inOut) {
+			var expectResult = inOut[strIn];
+			var trueResult = colorPad(strIn);
+
+			var text1 = `成功运行colorPad('${strIn}'')，预期结果是${expectResult}，实际结果是${trueResult}，两者`;
+			if (expectResult === trueResult) {
+				text1 += '相等，测试通过。';
+				html1 += `<x-success>${text1}</x-success>`;
+			} else {
+				text1 += '不相等，测试不通过。';
+				html1 += `<x-error>${text1}</x-error>`;
+			}
+		}
+
+		result1.innerHTML = html1;
+	}
+
+	if (code.value) {
+		window.eval(code.value);
+
+		var resultTrue = [];
+
+		for (var start = 0; start < 10; start++) {
+			resultTrue.push(colorRange('000010', '000001'));
+		}
+
+		var expectResult = ['#000001', '#000002', '#000003', '#000004', '#000005', '#000006', '#000007', '#000008', '#000009', '#00000a', '#00000b', '#00000c', '#00000d', '#00000e', '#00000f', '#000010'];
+
+		// 开始比较
+		var html = `<p class="bg-navy p5 white">成功运行了10次colorRange('000010', '000001')，预期结果是['#000001', '#000002', '#000003', '#000004', '#000005', '#000006', '#000007', '#000008', '#000009', '#00000a', '#00000b', '#00000c', '#00000d', '#00000e', '#00000f', '#000010']中任意一个，实际结果如下：</p>`;
+
+		resultTrue.forEach(function (result, index) {
+			var text = `第${index+1}次运行结果是${result}，`;
+			// `是${resultTrue}，<br>两者`;
+			if (expectResult.indexOf(result) != -1) {
+				text += '在预计范围之内，测试通过。';
+				html += `<x-success>${text}</x-success>`;
+			} else {
+				text += '不在预计范围之内，测试不通过。';
+				html += `<x-error>${text}</x-error>`;
+			}
+		});
+		
+		result2.innerHTML = html;
+	}
+};
+</script>
+</body>
+</html>
