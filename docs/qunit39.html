@@ -134,6 +134,26 @@ button.onclick = function () {
 				html += `<x-error>${text}</x-error>`;
 			}
 		});
+
+		// 开始比较
+		html += `<p class="bg-navy p5 white">成功运行了100次colorRange('0001ff', '000200')，预期结果是['#0001ff', '#000012']都会出现，实际结果如下：</p>`;
+		var resultCount = {
+			'#0001ff': 0,
+			'#000200': 0
+		};
+		for (var start = 0; start < 100; start++) {
+			var resultRange = colorRange('0001ff', '000200');
+			resultCount[resultRange]++;
+		}
+		var text2 = `#0001ff出现了${resultCount['#0001ff']}次，#000200出现了${resultCount['#000200']}次，`;
+		// `是${resultTrue}，<br>两者`;
+		if (resultCount['#0001ff'] != 0 && resultCount['#000200'] != 0) {
+			text2 += '都出现过，测试通过。';
+			html += `<x-success>${text2}</x-success>`;
+		} else {
+			text2 += '有一项没出现，测试不通过。';
+			html += `<x-error>${text2}</x-error>`;
+		}
 		
 		result2.innerHTML = html;
 	}
