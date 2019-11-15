@@ -96,7 +96,7 @@ button.onclick = function () {
 			var expectResult = inOut[strIn];
 			var trueResult = colorPad(strIn);
 
-			var text1 = `成功运行colorPad('${strIn}'')，预期结果是${expectResult}，实际结果是${trueResult}，两者`;
+			var text1 = `成功运行colorPad('${strIn}')，预期结果是${expectResult}，实际结果是${trueResult}，两者`;
 			if (expectResult === trueResult) {
 				text1 += '相等，测试通过。';
 				html1 += `<x-success>${text1}</x-success>`;

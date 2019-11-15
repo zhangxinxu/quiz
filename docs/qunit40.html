@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="zhangxinxu">
+<title>JS小测40单元测试</title>
+<link rel="stylesheet" href="https://www.zhangxinxu.com/GitHub/quickLayout/quick-layout-min.css">
+<style>
+h1 {
+	background-color: #333;
+	color: #fff;
+}
+input {
+	width: 50%;
+	box-sizing: border-box;
+	font-family: monaco, console, monospace;
+}
+textarea {
+	width: 100%;
+	height: 200px;
+	font-family: monaco, console, monospace;
+	box-sizing: border-box;
+	resize: vertical;
+}
+x-success {
+	display: block;
+	background-color: green;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 0 0 0;
+	white-space: pre-wrap;
+}
+x-error {
+	display: block;
+	background-color: #EE5757;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 0 0 0;
+	white-space: pre-wrap;
+}
+.result:empty::before {
+	display: block;
+	margin: 5px 0 0 0;
+	content: '测试尚未开始';
+	color: gray;
+	text-align: center;
+	line-height: 100px;
+	background-color: #eee;
+	font-family: monaco, console, monospace;
+}
+</style>
+</head>
+<body>
+<h1>JS小测39单元测试</h1>
+<div class="fix">
+	<div class="float-two" style="columns: 2;">
+		<h3>第1或1-4小题测试：</h3>
+		<p class="gray">// toCamelCase或所有粘贴在这里</p>
+		<textarea name="" id="toCamelCaseArea" cols="30" rows="8"></textarea>
+		
+		<h3>第2小题测试：</h3>
+		<p class="gray">// toDashJoin代码粘贴在这里</p>
+		<textarea name="" id="toDashJoinArea" cols="30" rows="8"></textarea>
+
+		<h3>第3小题测试：</h3>
+		<p class="gray">// toCapitalize代码粘贴在这里</p>
+		<textarea name="" id="toCapitalizeArea" cols="30" rows="8"></textarea>
+
+		<h3>第4小题测试：</h3>
+		<p class="gray">// toBetterUrl代码粘贴在这里</p>
+		<textarea name="" id="toBetterUrlArea" cols="30" rows="8"></textarea>
+		<p><a href="javascript:" id="button" class="btn btn-blue">开始测试</a></p>
+	</div>
+	<div class="float-two">
+		<div class="pl15">
+			<h3>toCamelCase方法测试结果</h3>
+			<div id="result1" class="result"></div>
+			<h3>toDashJoin方法测试结果</h3>
+			<div id="result2" class="result"></div>
+			<h3>toCapitalize方法测试结果</h3>
+			<div id="result3" class="result"></div>
+			<h3>toBetterUrl方法测试结果</h3>
+			<div id="result4" class="result"></div>
+		</div>
+	</div>
+</div>
+
+<script>
+button.onclick = function () {
+	if (toCamelCaseArea.value) {
+		window.eval(toCamelCaseArea.value);
+
+		var inOut = {
+			'abcDef': 'abcDef',
+			'abc-def': 'abcDef',
+			'abc-def-ghi': 'abcDefGhi',
+			'abc-def-gh0': 'abcDefGh0',
+			'a2c-def-123': 'a2cDef123'
+		};
+
+		// 开始比较
+		var html1 = '';
+		for (var strIn in inOut) {
+			var expectResult = inOut[strIn];
+			var trueResult = toCamelCase(strIn);
+
+			var text1 = `成功运行toCamelCase('${strIn}')，预期结果是${expectResult}，实际结果是${trueResult}，两者`;
+			if (expectResult === trueResult) {
+				text1 += '相等，测试通过。';
+				html1 += `<x-success>${text1}</x-success>`;
+			} else {
+				text1 += '不相等，测试不通过。';
+				html1 += `<x-error>${text1}</x-error>`;
+			}
+		}
+
+		result1.innerHTML = html1;
+	}
+
+	if (toDashJoinArea.value || typeof toDashJoin == 'function') {
+		window.eval(toDashJoinArea.value);
+
+		inOut = {
+			'abc-def': 'abc-def',
+			'abcDef': 'abc-def',
+			'abcDefGhi': 'abc-def-ghi',
+			'abcDefGh0': 'abc-def-gh0',
+			'a2cDef123': 'a2c-def123'
+		};
+
+		// 开始比较
+		var html2 = '';
+		for (var strIn in inOut) {
+			var expectResult = inOut[strIn];
+			var trueResult = toDashJoin(strIn);
+
+			var text2 = `成功运行toCamelCase('${strIn}')，预期结果是${expectResult}，实际结果是${trueResult}，两者`;
+			if (expectResult === trueResult) {
+				text2 += '相等，测试通过。';
+				html2 += `<x-success>${text2}</x-success>`;
+			} else {
+				text2 += '不相等，测试不通过。';
+				html2 += `<x-error>${text2}</x-error>`;
+			}
+		}
+
+		result2.innerHTML = html2;
+	}
+
+	if (toCapitalizeArea.value || typeof toCapitalize == 'function') {
+		window.eval(toCapitalizeArea.value);
+		
+		inOut = {
+			'I Like Css': 'I Like Css',
+			'i like css': 'I Like Css',
+			'I like   CSS': 'I Like   CSS',
+			'result is 0': 'Result Is 0',
+			'it\'s 我的 name?': 'It\'s 我的 Name?'
+		};
+
+		// 开始比较
+		var html3 = '';
+		for (var strIn in inOut) {
+			var expectResult = inOut[strIn];
+			var trueResult = toCapitalize(strIn);
+
+			var text3 = `成功运行toCamelCase('${strIn}')，预期结果是${expectResult}，实际结果是${trueResult}，两者`;
+			if (expectResult === trueResult) {
+				text3 += '相等，测试通过。';
+				html3 += `<x-success>${text3}</x-success>`;
+			} else {
+				text3 += '不相等，测试不通过。';
+				html3 += `<x-error>${text3}</x-error>`;
+			}
+		}
+
+		result3.innerHTML = html3;
+	}
+
+	if (toBetterUrlArea.value || typeof toBetterUrl == 'function') {
+		window.eval(toBetterUrlArea.value);
+		
+		inOut = {
+			'CSS value type': 'css-value-type',
+			'css    value type': 'css-value-type',
+			'css-value type': 'css-value-type',
+			'css-value   TYPE': 'css-value-type'
+		};
+
+		// 开始比较
+		var html4 = '';
+		for (var strIn in inOut) {
+			var expectResult = inOut[strIn];
+			var trueResult = toBetterUrl(strIn);
+
+			var text4 = `成功运行toCamelCase('${strIn}')，预期结果是${expectResult}，实际结果是${trueResult}，两者`;
+			if (expectResult === trueResult) {
+				text4 += '相等，测试通过。';
+				html4 += `<x-success>${text4}</x-success>`;
+			} else {
+				text4 += '不相等，测试不通过。';
+				html4 += `<x-error>${text4}</x-error>`;
+			}
+		}
+
+		result4.innerHTML = html4;
+	}
+};
+
+</script>
+</body>
+</html>
