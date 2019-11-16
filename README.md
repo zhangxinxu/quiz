@@ -11,12 +11,16 @@
 ### 2019年下半学期
 
 <dl>
+  <dt>2019-11-16 JS小测第40期</dt>
+  <dd>* 本次答疑直播回看地址：https://www.bilibili.com/video/av75837322
+  * 测试页面地址：http://quiz.xiliz.com/qunit40.html</dd>
   <dt>2019-11-09 CSS小测第14期</dt>
   <dd>* 本次答疑直播回看地址：https://www.bilibili.com/video/av75042558</dd>
   <dt>2019-11-02 DOM小测第39期</dt>
   <dd>* 本次答疑直播回看地址：https://www.bilibili.com/video/av74229607</dd>
   <dt>2019-10-26 JS小测第39期</dt>
-  <dd>* 本次答疑直播回看地址：https://www.bilibili.com/video/av73445271</dd>
+  <dd>* 本次答疑直播回看地址：https://www.bilibili.com/video/av73445271
+  * 测试页面地址：http://quiz.xiliz.com/qunit39.html</dd>
   <dt>2019-10-26 CSS小测第13期</dt>
   <dd>* 本次答疑直播回看地址：https://www.bilibili.com/video/av73445027</dd>
   <dt>2019-10-13 DOM小测第38期</dt>
