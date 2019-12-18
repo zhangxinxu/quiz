@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>CSS小测16</title>
+<style>
+html {
+    overflow-y: scroll;
+}
+img {
+    display: block;
+    max-width: 100%;
+    margin: 10px auto;
+}
+iframe {
+    width: 100%;
+    outline: 2px dashed deepskyblue;
+}
+aside {
+    position: fixed;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    padding: 10px;
+}
+pre {
+    font-family: Consolas, monospace;
+    font-size: 14px;
+    white-space: pre-wrap;
+}
+.main {
+    margin-left: 250px;
+}
+@media screen and (max-width: 480px) {
+    aside {
+        position: static;
+    }
+    .main {
+        margin-left: 0;
+    }
+}
+.mark {
+    display: block;
+    text-align: center;
+    background-color: red;
+    color: #fff;
+    padding: 10px;
+}
+.mark a {
+    color: inherit;
+}
+</style>
+</head>
+<body>
+<aside>
+    <h4 style="margin: 10px 0;">代码公共部分</h4>
+    <pre>.quiz {
+  background-color: white;
+  border: 1px solid #ddd;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.quiz-h {
+  font-size: 100%;
+}
+.quiz-p {
+  color: gray;
+}</pre>
+</aside>
+<div class="main">
+    <mark class="mark">不能重置已有的CSS代码，<a href="https://imgservices-1252317822.image.myqcloud.com/image/20191218/qjc1gsj01a.png" target="_blank" id="preview">目标效果</a></mark>
+    <h3>方法1（IE8+）</h3>
+    <iframe src="css-quiz16-1.html" frameborder="0"></iframe>
+    <h3>方法2（IE10+）</h3>
+    <iframe src="css-quiz16-2.html" frameborder="0"></iframe>
+    <h3>方法3（IE8+）</h3>
+    <iframe src="css-quiz16-3.html" frameborder="0"></iframe>
+    <h3>方法4（IE8+）</h3>
+    <iframe src="css-quiz16-4.html" frameborder="0"></iframe>
+</div>
+<script>
+preview.onclick = function () {
+    var eleImg = document.getElementById('img');
+    if (eleImg) {
+        if (eleImg.style.display == 'none') {
+            eleImg.style.display = 'block';
+        } else {
+            eleImg.style.display = 'none';
+        }
+    } else {
+        this.parentElement.insertAdjacentHTML('afterend', '<img id="img" src="'+ this.href +'">');
+    }
+
+    return false;
+}
+</script>
+</body>
+</html>
