@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="zhangxinxu">
+<title>DOM比对渲染方法单元测试</title>
+<link rel="stylesheet" href="https://www.zhangxinxu.com/GitHub/quickLayout/quick-layout-min.css">
+<style>
+h1 {
+	background-color: #333;
+	color: #fff;
+}
+textarea {
+	width: 100%;
+	height: 200px;
+	font-family: monaco, console, monospace;
+	box-sizing: border-box;
+	resize: vertical;
+}
+x-success {
+	display: block;
+	background-color: green;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 0 0 0;
+}
+x-error {
+	display: block;
+	background-color: #EE5757;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 0 0 0;
+}
+.result:empty::before {
+	display: block;
+	margin: 5px 0 0 0;
+	content: '测试尚未开始';
+	color: gray;
+	text-align: center;
+	line-height: 100px;
+	background-color: #eee;
+}
+section {
+	display: flex;
+}
+.item {
+	flex: 1;
+}
+pre {
+	tab-size: 4;
+	background-color: #f5f5f5;
+	padding: 5px 10px;
+	margin-right: 20px;
+}
+ul {
+	display: inline-block;
+	vertical-align: top;
+	margin-right: 20px;
+}
+</style>
+</head>
+<body>
+<h1>DOM比对渲染方法单元测试</h1>
+
+<p><button id="buttonTest" class="btn btn-blue">开始执行</button></p>
+
+<template id="template">
+	<section>
+		<div class="item">
+			<h4>原始HTML</h4>
+			<pre>&lt;ul&gt;
+	&lt;li class="a"&gt;列表1&lt;/li&gt;
+	&lt;li class="b"&gt;列表2&lt;/li&gt;
+	&lt;li class="c"&gt;列表3&lt;/li&gt;
+&lt;/ul&gt;</pre>
+		</div>
+		<div class="item">
+			<h4>预期HTML</h4>
+			<pre>${targetHtml}</pre>
+		</div>
+		<div class="item">
+			<h3>测试结果</h3>
+			<div class="result">
+				<pre>${actualHtml}</pre>
+				${result}
+			</div>
+		</div>
+	</section>
+</template>
+
+
+<h3>添加</h3>
+<ul></ul>
+<ul></ul>
+<ul></ul>
+
+<h3>删除</h3>
+<ul></ul>
+<ul></ul>
+
+<h3>顺序变化</h3>
+<ul></ul>
+
+<h4>内容与属性变化</h4>
+<ul></ul>
+
+
+
+<script>
+String.prototype.interpolate = function (params) {
+    const names = Object.keys(params);
+    const vals = Object.values(params);
+    const str  = new Function(...names, `return \`${this}\`;`)(...vals);
+    return str;
+};
+
+/**
+ * 非严格极简DOM对比并渲染方法
+ */
+ HTMLElement.prototype.render = function (html) {
+    if (typeof html != 'string') {
+        return;
+    }
+    // 如果原HTML元素没有任何内容，直接HTML替换
+    if (this.innerHTML.trim() == '') {
+        this.innerHTML = html;
+        return;
+    }
+
+    // 基于字符串的DOM比对处理主逻辑
+    // 复制原始节点
+    let cloneNode = this.cloneNode();
+    cloneNode.innerHTML = html;
+    // 两个节点的子元素进行比对
+    let childrenOrigin = this.children;
+    let childrenNew = cloneNode.children;
+
+    // 只进行子元素的比对
+    // 比对方式也比较粗暴，就是比对outerHTML是否一致
+    let arrOuterHTMLOrigin = Array.from(childrenOrigin).map(child => {
+        return child.outerHTML;
+    });
+    let arrOuterHTMLNew = Array.from(childrenNew).map(child => {
+        return child.outerHTML;
+    });
+
+    // 标记arrOuterHTMLOrigin没有任何匹配的DOM元素，这些元素是需要删除的
+    arrOuterHTMLOrigin.forEach((html, index) => {
+        if (arrOuterHTMLNew.includes(html) == false) {
+			arrOuterHTMLOrigin.splice(index, 1);
+            childrenOrigin[index].remove();
+        }
+    });
+
+    // 如果是一个新的DOM元素
+    Array.from(childrenNew).forEach(child => {
+        if (arrOuterHTMLOrigin.includes(child.outerHTML) == false) {
+            // 插入
+            this.appendChild(child);
+        }
+    });
+
+    // 此时新的节点元素
+    // 理论上，和目标节点元素只有顺序上的不对
+    arrChildrenOrigin = Array.from(this.children);
+    // 接下来做的事情就是简单的DOM重排序了
+    arrChildrenOrigin.sort((eleA, eleB) => {
+        return arrOuterHTMLNew.indexOf(eleA.outerHTML) - arrOuterHTMLNew.indexOf(eleB.outerHTML);
+    });
+    // 一个一个重新从后面append
+    arrChildrenOrigin.forEach(child => {
+        this.appendChild(child);
+    });
+};
+</script>
+
+
+<script>
+
+let originHtml = `<li class="a">列表1</li>
+	<li class="b">列表2</li>
+	<li class="c">列表3</li>`;
+// 内容初始化
+let arrUl = Array.from(document.querySelectorAll('ul'));
+arrUl.forEach(function (ul) {
+	ul.render(originHtml);
+});
+// 这样测试事件还在不在
+document.querySelectorAll('li').forEach(function (li) {
+	li.addEventListener('click', function () {
+		this.style.color = '#' + String(Math.random()).slice(-6);
+		console.log('event still on');
+	});
+});
+
+let arrTargetHtml = [`<li class="a">列表1</li>
+	<li class="b">列表2</li>
+	<li class="c">列表3</li>
+	<li class="d">列表4</li>`, `<li class="a">列表1</li>
+	<li class="d">列表4</li><li class="b">列表2</li>
+	<li class="c">列表3</li>`, `<li class="d">列表4</li><li class="a">列表1</li>
+	<li class="b">列表2</li>
+	<li class="c">列表3</li>`, `<li class="b">列表2</li>
+	<li class="c">列表3</li>`, `<li class="a">列表1</li>
+	<li class="b">列表2</li>`, `<li class="b">列表2</li>
+	<li class="a">列表1</li>
+	<li class="c">列表3</li>`, `<li class="b">列表2</li>
+	<li class="xx">列表xx</li>
+	<li class="yy">列表yy</li>`];
+
+let strTemplate = document.querySelector('#template').innerHTML;
+
+document.querySelector('#buttonTest').addEventListener('click', function () {
+
+	var arrResult = [];
+
+	arrTargetHtml.forEach(function (html, index) {
+		arrUl[index].render(html);
+		// 此时真实的HTML内容是
+		let actualHtml = arrUl[index].innerHTML;
+		// 是否相等的判断
+		// 这里忽略空格进行判断下
+		let isEqual = html.trim().replace(/>\s+</g, '><') === actualHtml.trim().replace(/>\s+</g, '><');
+
+		arrResult.push({
+			targetHtml: html.replace(/</g, '&lt;'),
+			actualHtml: actualHtml.replace(/</g, '&lt;'),
+			result: isEqual ? '<x-success>如果不考虑标签间空格，验证通过</x-success>' : '<x-error>验证失败</x-error>'
+		});
+	});
+
+	// 基于arrResult渲染结果
+	this.parentElement.insertAdjacentHTML('afterend', arrResult.map(function (obj) {
+		return strTemplate.interpolate(obj);
+	}).join(''));
+});
+</script>
+</body>
+</html>
