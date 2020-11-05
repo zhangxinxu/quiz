@@ -51,6 +51,7 @@ pre {
 	background-color: #f5f5f5;
 	padding: 5px 10px;
 	margin-right: 20px;
+	white-space: pre-wrap;
 }
 ul {
 	display: inline-block;
@@ -88,6 +89,8 @@ ul {
 	</section>
 </template>
 
+<div id="result"></div>
+
 
 <h3>添加</h3>
 <ul></ul>
@@ -104,6 +107,8 @@ ul {
 <h4>内容与属性变化</h4>
 <ul></ul>
 
+<h4>大量重复内容</h4>
+<ul></ul>
 
 
 <script>
@@ -125,7 +130,12 @@ String.prototype.interpolate = function (params) {
     if (this.innerHTML.trim() == '') {
         this.innerHTML = html;
         return;
-    }
+	}
+	
+	let debug = false;
+	if (/same/.test(html)) {
+		debug = true;
+	}
 
     // 基于字符串的DOM比对处理主逻辑
     // 复制原始节点
@@ -144,13 +154,17 @@ String.prototype.interpolate = function (params) {
         return child.outerHTML;
     });
 
-    // 标记arrOuterHTMLOrigin没有任何匹配的DOM元素，这些元素是需要删除的
+	// 标记arrOuterHTMLOrigin没有任何匹配的DOM元素，这些元素是需要删除的
+	let arrNeedRemoveChild = [];
     arrOuterHTMLOrigin.forEach((html, index) => {
         if (arrOuterHTMLNew.includes(html) == false) {
-			arrOuterHTMLOrigin.splice(index, 1);
-            childrenOrigin[index].remove();
+			arrNeedRemoveChild.push(childrenOrigin[index]);			
         }
-    });
+	});
+	// 删除原始的DOM元素和数组数据
+	arrNeedRemoveChild.forEach(child => {
+        child.remove();
+	});
 
     // 如果是一个新的DOM元素
     Array.from(childrenNew).forEach(child => {
@@ -167,9 +181,11 @@ String.prototype.interpolate = function (params) {
     arrChildrenOrigin.sort((eleA, eleB) => {
         return arrOuterHTMLNew.indexOf(eleA.outerHTML) - arrOuterHTMLNew.indexOf(eleB.outerHTML);
     });
-    // 一个一个重新从后面append
-    arrChildrenOrigin.forEach(child => {
-        this.appendChild(child);
+    // 重新从后面append
+    arrChildrenOrigin.forEach((child, index) => {
+		if (this.children[index] !== child) {
+			this.appendChild(child);
+		}        
     });
 };
 </script>
@@ -206,7 +222,9 @@ let arrTargetHtml = [`<li class="a">列表1</li>
 	<li class="a">列表1</li>
 	<li class="c">列表3</li>`, `<li class="b">列表2</li>
 	<li class="xx">列表xx</li>
-	<li class="yy">列表yy</li>`];
+	<li class="yy">列表yy</li>`, `<li>列表-same</li>
+	<li>列表-same</li>
+	<li>列表-same</li>`];
 
 let strTemplate = document.querySelector('#template').innerHTML;
 
@@ -224,15 +242,15 @@ document.querySelector('#buttonTest').addEventListener('click', function () {
 
 		arrResult.push({
 			targetHtml: html.replace(/</g, '&lt;'),
-			actualHtml: actualHtml.replace(/</g, '&lt;'),
+			actualHtml: actualHtml.replace(/</g, '&lt;').trim(),
 			result: isEqual ? '<x-success>如果不考虑标签间空格，验证通过</x-success>' : '<x-error>验证失败</x-error>'
 		});
 	});
 
 	// 基于arrResult渲染结果
-	this.parentElement.insertAdjacentHTML('afterend', arrResult.map(function (obj) {
+	document.querySelector('#result').innerHTML = arrResult.map(function (obj) {
 		return strTemplate.interpolate(obj);
-	}).join(''));
+	}).join('')
 });
 </script>
 </body>
