@@ -59,7 +59,7 @@ x-error {
 	<div class="float-two">
 		<h3>测试入口：</h3>
         <p>你的方法名称：<input id="funcnName" required></p>
-		<p class="gray">// <output class="methodName"></output>代码粘贴在这里</p>
+		<p class="gray">// <output class="methodName"></output>代码粘贴在这里 箭头函数需改成 function 语法</p>
 		<textarea name="" id="codeArea" cols="30" rows="8"></textarea>
         <p><a href="javascript:" id="button" class="btn btn-blue">开始测试</a></p>
 	</div>
@@ -73,7 +73,7 @@ x-error {
 
 <script>
 button.onclick = function () {
-    var funcName = funcnName.value;
+    var funcName = funcnName.value.trim();
 	if (codeArea.value && funcName) {
 		window.eval(codeArea.value);
 
@@ -104,6 +104,10 @@ button.onclick = function () {
 		// 开始比较
 		var html1 = '';
 
+        var toStr = function (val) {
+            return typeof val == 'string' ? `'${val}'` : val;
+        };
+
         inOut.forEach(function (arr) {
             [[arr[0], arr[1]], [arr[1], arr[0]]].forEach(function (arrInOut) {
                 var expectResult = arrInOut[0];
@@ -116,7 +120,7 @@ button.onclick = function () {
                     trueResult = trueResult.toUpperCase();
                 }
 
-                var text1 = `成功运行${funcName}('${strIn}')，预期结果是${expectResult}，实际结果是${trueResult}，两者`;
+                var text1 = `成功运行${funcName}(${toStr(strIn)})，预期结果是${toStr(expectResult)}，实际结果是${toStr(trueResult)}，两者`;
                 if (expectResult === trueResult) {
                     text1 += '相等，测试通过。';
                     html1 += `<x-success>${text1}</x-success>`;
