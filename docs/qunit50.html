@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="zhangxinxu">
+<title>JS小测50单元测试</title>
+<link rel="stylesheet" href="https://www.zhangxinxu.com/GitHub/quickLayout/quick-layout-min.css">
+<style>
+h1 {
+	background-color: #333;
+	color: #fff;
+}
+input {
+	width: 50%;
+	box-sizing: border-box;
+	font-family: monaco, console, monospace;
+    padding: 5px 10px;
+}
+textarea {
+	width: 100%;
+	height: 280px;
+	font-family: monaco, console, monospace;
+	box-sizing: border-box;
+	resize: vertical;
+}
+x-success {
+	display: block;
+	background-color: green;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 0 0 0;
+	white-space: pre-wrap;
+}
+x-error {
+	display: block;
+	background-color: #EE5757;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 0 0 0;
+	white-space: pre-wrap;
+}
+.result:empty::before {
+	display: block;
+	margin: 5px 0 0 0;
+	content: '测试尚未开始';
+	color: gray;
+	text-align: center;
+	line-height: 100px;
+	background-color: #eee;
+	font-family: monaco, console, monospace;
+}
+</style>
+</head>
+<body>
+<h1>JS小测50单元测试</h1>
+<p>CSS新的色值已经支持 #RRGGBBAA 格式的，其中 AA 指透明度，例如，00表示透明度0，#ff表示透明度1，但是 #AF 透明度是多少呢？ 就不太清楚了。
+    请编写一个方法，如果是0-1之间的数值，请返回对应的 AA 表示，如果是 AA 格式字符串，就返回对应的透明度值（范围0-1）。</p>
+<div class="fix">
+	<div class="float-two">
+		<h3>测试入口：</h3>
+        <p>你的方法名称：<input id="funcnName" required></p>
+		<p class="gray">// <output class="methodName"></output>代码粘贴在这里</p>
+		<textarea name="" id="codeArea" cols="30" rows="8"></textarea>
+        <p><a href="javascript:" id="button" class="btn btn-blue">开始测试</a></p>
+	</div>
+	<div class="float-two">
+		<div class="pl15">
+			<h3><output class="methodName"></output>方法测试结果</h3>
+			<div id="result1" class="result"></div>
+		</div>
+	</div>
+</div>
+
+<script>
+button.onclick = function () {
+    var funcName = funcnName.value;
+	if (codeArea.value && funcName) {
+		window.eval(codeArea.value);
+
+		var inOut = [
+            [0, '00'],
+            [0.05, '0D'],
+            [0.1, '1A'],
+            [0.15, '26'],
+            [0.2, '33'],
+            [0.25, '40'],
+            [0.3, '4D'],
+            [0.35, '59'],
+            [0.4, '66'],
+            [0.45, '73'],
+            [0.5, '80'],
+            [0.55, '8C'],
+            [0.6, '99'],
+            [0.65, 'A6'],
+            [0.7, 'B3'],
+            [0.75, 'BF'],
+            [0.8, 'CC'],
+            [0.85, 'D9'],
+            [0.9, 'E6'],
+            [0.95, 'F2'],
+            [1, 'FF']
+        ];
+
+		// 开始比较
+		var html1 = '';
+
+        inOut.forEach(function (arr) {
+            [[arr[0], arr[1]], [arr[1], arr[0]]].forEach(function (arrInOut) {
+                var expectResult = arrInOut[0];
+                var strIn = arrInOut[1];
+			    var trueResult = window[funcName](strIn);
+
+                if (typeof trueResult == 'number') {
+                    trueResult = Math.round(100 * trueResult) / 100;
+                } else if (typeof trueResult == 'string') {
+                    trueResult = trueResult.toUpperCase();
+                }
+
+                var text1 = `成功运行${funcName}('${strIn}')，预期结果是${expectResult}，实际结果是${trueResult}，两者`;
+                if (expectResult === trueResult) {
+                    text1 += '相等，测试通过。';
+                    html1 += `<x-success>${text1}</x-success>`;
+                } else {
+                    text1 += '不相等，测试不通过。';
+                    html1 += `<x-error>${text1}</x-error>`;
+                }
+            });            
+        });
+
+		result1.innerHTML = html1;
+	}
+};
+
+</script>
+</body>
+</html>
