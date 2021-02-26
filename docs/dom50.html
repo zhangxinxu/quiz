@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="zhangxinxu">
+<title>DOM小测第50期单元测试</title>
+<link rel="stylesheet" href="https://www.zhangxinxu.com/GitHub/quickLayout/quick-layout-min.css">
+<style>
+h1 {
+	background-color: #333;
+	color: #fff;
+}
+input {
+	width: 50%;
+	box-sizing: border-box;
+	font-family: monaco, console, monospace;
+    padding: 5px 10px;
+}
+textarea {
+	width: 100%;
+	height: 280px;
+	font-family: monaco, console, monospace;
+	box-sizing: border-box;
+	resize: vertical;
+}
+x-success {
+	display: block;
+	background-color: green;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 0 0 0;
+	white-space: pre-wrap;
+}
+x-error {
+	display: block;
+	background-color: #EE5757;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 0 0 0;
+	white-space: pre-wrap;
+}
+.result:empty::before {
+	display: block;
+	margin: 5px 0 0 0;
+	content: '测试尚未开始';
+	color: gray;
+	text-align: center;
+	line-height: 100px;
+	background-color: #eee;
+	font-family: monaco, console, monospace;
+}
+#p span {
+    display: block;
+}
+</style>
+</head>
+<body>
+<h1>DOM小测第50期单元测试</h1>
+<pre>此题源自某实际项目场景，已知有如下一段 HTML：
+&lt;p id="p"&gt;访问&lt;strong&gt;此&lt;a href="##"&gt;链接&lt;/a&gt;&lt;/strong&gt;。&lt;/p&gt;
+
+使用自定义字体 + writing-mode 垂直排版的时候会有严重的排版兼容性问题。因此，需要对 HTML 结构改造以便方便改用更硬核的垂直排版方法。
+
+请编写一个函数，名为 text2html，语法为  text2html(dom)，可以让dom元素中所有文本字符使用 span 标签嵌套，例如  text2html(p) 返回的结果是：
+&lt;p id="p"&gt;&lt;span&gt;访&lt;/span&gt;&lt;span&gt;问&lt;/span&gt;&lt;strong&gt;&lt;span&gt;此&lt;/span&gt;&lt;a href="##"&gt;&lt;span&gt;链&lt;/span&gt;&lt;span&gt;接&lt;/span&gt;&lt;/a&gt;&lt;/strong&gt;。&lt;/p&gt;
+
+这样 span { display: block; } 就可以实现垂直排版了。</pre>
+<div class="fix">
+	<div class="float-two">
+		<h3>测试入口：</h3>
+        <p>目标HTML：</p>
+        <div style="padding: 0 .5em; border: 1px dotted;;"><p id="p">访问<strong>此<a href="##">链接</a></strong>。</p></div>
+		<p class="gray">// <output class="methodName"></output>代码粘贴在这里</p>
+		<textarea name="" id="codeArea" cols="30" rows="8"></textarea>
+        <p><a href="javascript:" id="button" class="btn btn-blue">开始测试（每次测试需要先刷新页面）</a></p>
+	</div>
+	<div class="float-two">
+		<div class="pl15">
+			<h3><output class="methodName"></output>方法测试结果</h3>
+			<div id="result1" class="result"></div>
+		</div>
+	</div>
+</div>
+
+<script>
+var eleP = document.querySelector('#p');
+var eleStrong = eleP.querySelector('strong');
+var eleA = eleP.querySelector('a');
+
+var funEncodeHTML = function (str) {
+    if (typeof str == 'string') {
+        return str.replace(/<|&|>/g, function (matches) {
+            return ({
+                '<': '&lt;',
+                '>': '&gt;',
+                '&': '&amp;'
+            })[matches];
+        });
+    }
+
+    return '';
+};
+
+button.onclick = function () {
+	if (codeArea.value) {
+		window.eval(codeArea.value);
+
+		// 执行方法
+        text2html(eleP);
+
+		// 开始比较
+		var html1 = '';
+
+        var htmlExpect = '<p id="p"><span>访</span><span>问</span><strong><span>此</span><a href="##"><span>链</span><span>接</span></a></strong><span>。</span></p>';
+        var htmlTrue = eleP.outerHTML;
+
+        var text1 = `成功运行text2html(p)，预期结果是<br>'${funEncodeHTML(htmlExpect)}'，<br>实际结果是<br>'${funEncodeHTML(htmlTrue)}'，两者`;
+        if (htmlExpect === htmlTrue) {
+            text1 += '相等，测试通过。';
+            html1 += `<x-success>${text1}</x-success>`;
+        } else {
+            text1 += '不相等，测试不通过。';
+            html1 += `<x-error>${text1}</x-error>`;
+        }
+        // 事件测试
+        text1 = '预期结果&lt;strong&gt;元素依然保留，实际结果是';
+        if (eleStrong.parentElement) {
+            text1 += '保留，测试通过。';
+            html1 += `<x-success>${text1}</x-success>`;
+        } else {
+            text1 += '没有保留，测试不通过。';
+            html1 += `<x-error>${text1}</x-error>`;
+        }
+
+        text1 = '预期结果&lt;a&gt;元素依然保留，实际结果是';
+        if (eleA.parentElement) {
+            text1 += '保留，测试通过。';
+            html1 += `<x-success>${text1}</x-success>`;
+        } else {
+            text1 += '没有保留，测试不通过。';
+            html1 += `<x-error>${text1}</x-error>`;
+        }
+
+		result1.innerHTML = html1;
+	}
+};
+
+</script>
+</body>
+</html>
