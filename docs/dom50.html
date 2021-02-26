@@ -69,24 +69,20 @@ x-error {
 	<div class="float-two">
 		<h3>测试入口：</h3>
         <p>目标HTML：</p>
-        <div style="padding: 0gi .5em; border: 1px dotted;;"><p id="p">访问<strong>此<a href="##">链接</a></strong>。</p></div>
+        <div style="padding: 0 .5em; border: 1px dotted;"><p id="p">访问<strong>此<a href="##">链接</a></strong>。</p></div>
 		<p class="gray">// <output class="methodName"></output>代码粘贴在这里</p>
 		<textarea name="" id="codeArea" cols="30" rows="8"></textarea>
-        <p><a href="javascript:" id="button" class="btn btn-blue">开始测试（每次测试需要先刷新页面）</a></p>
+        <p><a href="javascript:" id="button" class="btn btn-blue">开始测试</a></p>
 	</div>
 	<div class="float-two">
 		<div class="pl15">
-			<h3><output class="methodName"></output>方法测试结果</h3>
+			<h3>测试结果</h3>
 			<div id="result1" class="result"></div>
 		</div>
 	</div>
 </div>
 
 <script>
-var eleP = document.querySelector('#p');
-var eleStrong = eleP.querySelector('strong');
-var eleA = eleP.querySelector('a');
-
 var funEncodeHTML = function (str) {
     if (typeof str == 'string') {
         return str.replace(/<|&|>/g, function (matches) {
@@ -103,6 +99,13 @@ var funEncodeHTML = function (str) {
 
 button.onclick = function () {
     var codeValue = codeArea.value.trim().replace(/text2html/gi, 'text2html');
+
+    var eleP = document.querySelector('#p');
+    eleP.innerHTML = '访问<strong>此<a href="##">链接</a></strong>。';
+    // 几个元素获取
+    var eleStrong = eleP.querySelector('strong');
+    var eleA = eleP.querySelector('a');
+
 	if (codeValue) {
 		window.eval(codeValue);
 
