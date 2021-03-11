@@ -133,19 +133,24 @@ button.onclick = function () {
 		// 开始比较
 		var html1 = '';
 
-        arrInOut.forEach(function (obj) {
-            var expectResult = obj.output;
-            var trueResult = getSameItems.apply(null, obj.input);
+        try {
+            arrInOut.forEach(function (obj) {
+                var expectResult = obj.output;
+                var trueResult = getSameItems.apply(null, obj.input);
 
-            var text1 = `成功运行getSameItems(${arr2str(obj.input)})方法，预期结果是${arr2str2(expectResult)}，实际结果是${arr2str2(trueResult)}，两者`;
-            if (expectResult.length === trueResult.length && expectResult.join() == trueResult.join()) {
-                text1 += '相等，测试通过。';
-                html1 += `<x-success>${text1}</x-success>`;
-            } else {
-                text1 += '不相等，测试不通过。';
-                html1 += `<x-error>${text1}</x-error>`;
-            }    
-        });
+                var text1 = `成功运行getSameItems(${arr2str(obj.input)})方法，预期结果是${arr2str2(expectResult)}，实际结果是${arr2str2(trueResult)}，两者`;
+                if (expectResult.length === trueResult.length && expectResult.join() == trueResult.join()) {
+                    text1 += '相等，测试通过。';
+                    html1 += `<x-success>${text1}</x-success>`;
+                } else {
+                    text1 += '不相等，测试不通过。';
+                    html1 += `<x-error>${text1}</x-error>`;
+                }    
+            });
+        } catch (e) {
+            var textError = `getSameItems()方法执行失败，错误信息是：${e}`;
+            html1 += `<x-error>${textError}</x-error>`;
+        }
 
 		result1.innerHTML = html1;
 
