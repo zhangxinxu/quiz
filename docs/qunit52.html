@@ -154,9 +154,12 @@ button.onclick = function () {
         // 为空的测试
         try {
             var emptyResult = getSameItems();
-            if (emptyResult.length == 0 && emptyResult.join() === '') {
+            if (emptyResult && emptyResult.length == 0 && emptyResult.join() === '') {
                 text1 += 'getSameItems()方法无参数测试通过。';
                 html1 += `<x-success>${text1}</x-success>`;
+            } else {
+                text1 += `getSameItems()方法执行成功，但是返回结果是${arr2str2(trueResult)}，并不是预期的[]。`;
+                html1 += `<x-error>${text1}</x-error>`;
             }
         } catch (e) {
             text1 += 'getSameItems()方法无参数测试不通过。';
