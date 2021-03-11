@@ -76,11 +76,19 @@ x-error {
 <script>
 
 arr2str = function (arr) {
+    if (!arr) {
+        return '';
+    }
+    
     return JSON.stringify({
         a: arr
     }).split(':[')[1].split(']}')[0];
 };
 arr2str2 = function (arr) {
+    if (!arr) {
+        return '';
+    }
+
     return JSON.stringify({
         a: arr
     }).split(':')[1].split('}')[0];
@@ -91,7 +99,7 @@ button.onclick = function () {
 		window.eval(codeArea.value);
 
 		let arrInOut = [{
-            input: [],
+            input: [[]],
             output: []
         }, {
             input: [[1]],
@@ -140,6 +148,22 @@ button.onclick = function () {
         });
 
 		result1.innerHTML = html1;
+
+        let text1 = '';
+
+        // 为空的测试
+        try {
+            var emptyResult = getSameItems();
+            if (emptyResult.length == 0 && emptyResult.join() === '') {
+                text1 += 'getSameItems()方法无参数测试通过。';
+                html1 += `<x-success>${text1}</x-success>`;
+            }
+        } catch (e) {
+            text1 += 'getSameItems()方法无参数测试不通过。';
+            html1 += `<x-error>${text1}</x-error>`;
+        }
+
+        result1.innerHTML = html1;
 	}
 };
 
