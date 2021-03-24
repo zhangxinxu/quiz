@@ -99,6 +99,10 @@ button.onclick = function () {
 	if (codeArea.value) {
 		window.eval(codeArea.value);
 
+        var date = new Date();
+        date.setMonth(2);
+        date.setDate(0);
+
 		let arrInOut = [{
             input: [2021, 1],
             output: 31
@@ -106,8 +110,11 @@ button.onclick = function () {
             input: [2021, 2],
             output: 28
         }, {
-            input: [1900, 2],
+            input: [100, 2],
             output: 28
+        }, {
+            input: [0, 2],
+            output: 29
         }, {
             input: [2100, 2],
             output: 28
@@ -115,7 +122,7 @@ button.onclick = function () {
             input: [2020, 2],
             output: 29
         }, {
-            input: [2000, 2],
+            input: [400, 2],
             output: 29
         }, {
             input: [2021, 3],
@@ -124,10 +131,10 @@ button.onclick = function () {
             input: [2021, 4],
             output: 30
         }, {
-            input: [2021, 5],
+            input: [21, 5],
             output: 31
         }, {
-            input: [2021, 6],
+            input: ["3100", "6"],
             output: 30
         }, {
             input: [2021, 7],
@@ -139,14 +146,17 @@ button.onclick = function () {
             input: [2021, 9],
             output: 30
         }, {
-            input: [2021, 10],
+            input: ["-100", 10],
             output: 31
         }, {
-            input: [2021, 11],
+            input: [20212, 11],
             output: 30
         }, {
             input: [2021, 12],
             output: 31
+        }, {
+            input: ['', 2],
+            output: date.getDate()
         }];
 
 		// 开始比较
@@ -178,16 +188,19 @@ button.onclick = function () {
         // 为空的测试
         try {
             var emptyResult = getMaxDate();
+            var emptyResult2 = getMaxDate('', 2);
             var date = new Date();
-            if (emptyResult === getMaxDate(date.getFullYear(), date.getMonth() + 1)) {
+            var expResult = getMaxDate(date.getFullYear(), date.getMonth() + 1);
+            var date = new Date();
+            if (emptyResult === expResult) {
                 text1 += 'getMaxDate()方法无参数测试通过。';
                 html1 += `<x-success>${text1}</x-success>`;
             } else {
-                text1 += `getMaxDate()方法执行成功，但是返回结果是${arr2str2(trueResult)}，并不是预期的[]。`;
+                text1 += `getMaxDate()方法执行成功，但是返回结果是${emptyResult}，并不是预期的${expResult}。`;
                 html1 += `<x-error>${text1}</x-error>`;
             }
         } catch (e) {
-            text1 += 'getMaxDate()方法无参数测试不通过。';
+            text1 += 'getMaxDate()方法无参数测试不通过，错误信息是：' + e;
             html1 += `<x-error>${text1}</x-error>`;
         }
 
