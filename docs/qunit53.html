@@ -102,6 +102,10 @@ button.onclick = function () {
         var date = new Date();
         date.setMonth(2);
         date.setDate(0);
+        var date2 = new Date();
+        date2.setFullYear(2000);
+        date2.setMonth(date2.getMonth() + 1);
+        date2.setDate(0);
 
 		let arrInOut = [{
             input: [2021, 1],
@@ -157,6 +161,9 @@ button.onclick = function () {
         }, {
             input: ['', 2],
             output: date.getDate()
+        }, {
+            input: [2000],
+            output: date2.getDate()
         }];
 
 		// 开始比较
