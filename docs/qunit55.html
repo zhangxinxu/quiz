@@ -102,7 +102,7 @@ let someArr = function (arrA, arrB) {
         if (valueA === valueB) {
             return true;
         }
-        if (typeof valueA == 'object' && typeof valueB == 'object' && valueA.a === valueB.a) {
+        if (typeof valueA == 'object' && typeof valueB == 'object' && valueA && valueB && valueA.a === valueB.a) {
             return true;
         }
         return false;
