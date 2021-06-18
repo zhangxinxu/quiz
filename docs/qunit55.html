@@ -144,6 +144,17 @@ button.onclick = function () {
                 html1 += `<x-error>${text2}</x-error>`;
             }
 
+            sortArrayByIndex(arr, 2, 2);
+
+            text2 = `参数合法性测试，成功运行sortArrayByIndex(arr, 2, 2)方法，预期结果是[${arr2str(expectResult2)}]，实际结果是[${arr2str(arr)}]，两者`;
+            if (someArr(expectResult2, arr)) {
+                text2 += '相等，测试通过。';
+                html1 += `<x-success>${text2}</x-success>`;
+            } else {
+                text2 += '不相等，测试不通过。';
+                html1 += `<x-error>${text2}</x-error>`;
+            }
+
             sortArrayByIndex(arr, -1, 100);
 
             text2 = `参数合法性测试，成功运行sortArrayByIndex(arr, -1, 100)方法，预期结果是[${arr2str(expectResult2)}]，实际结果是[${arr2str(arr)}]，两者`;
@@ -165,6 +176,18 @@ button.onclick = function () {
             } else {
                 text3 += '不相等，测试不通过。';
                 html1 += `<x-error>${text3}</x-error>`;
+            }
+
+            sortArrayByIndex(arr, 1, 2);
+            var expectResult4 = [true, { a: 1 }, null, 'yux', 100];
+
+            var text4 = `参数合法性测试，成功运行sortArrayByIndex(arr, 1, 2)方法，预期结果是[${arr2str(expectResult4)}]，实际结果是[${arr2str(arr)}]，两者`;
+            if (someArr(expectResult4, arr)) {
+                text4 += '相等，测试通过。';
+                html1 += `<x-success>${text4}</x-success>`;
+            } else {
+                text4 += '不相等，测试不通过。';
+                html1 += `<x-error>${text4}</x-error>`;
             }
 
         } catch (e) {
