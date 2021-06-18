@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="zhangxinxu">
+<title>JS小测55单元测试</title>
+<link rel="stylesheet" href="https://www.zhangxinxu.com/github/quickLayout/quick-layout-min.css">
+<style>
+h1 {
+	background-color: #333;
+	color: #fff;
+}
+input {
+	width: 50%;
+	box-sizing: border-box;
+	font-family: monaco, console, monospace;
+    padding: 5px 10px;
+}
+textarea {
+	width: 100%;
+	height: 280px;
+	font-family: monaco, console, monospace;
+	box-sizing: border-box;
+	resize: vertical;
+}
+x-success {
+	display: block;
+	background-color: green;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 0 0 0;
+	white-space: pre-wrap;
+}
+x-error {
+	display: block;
+	background-color: #EE5757;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 0 0 0;
+	white-space: pre-wrap;
+}
+.result:empty::before {
+	display: block;
+	margin: 5px 0 0 0;
+	content: '测试尚未开始';
+	color: gray;
+	text-align: center;
+	line-height: 100px;
+	background-color: #eee;
+	font-family: monaco, console, monospace;
+}
+</style>
+</head>
+<body>
+<h1>JS小测55单元测试</h1>
+<pre>请实现一个名为 sortArrayByIndex 的方法，可以让数组中的某一项，插入到任意位置，语法为：sortArrayByIndex(arr, fromIndex, toIndex)。
+其中：
+    arr是数组项；
+    fromIndex是数值，表示改变索引位置的元素的索引值，如果此值过大或过小或非数值，返回原数组；
+    toIndex是数值，表示插入位置的索引值，如果此值过大或过小，则按照边界处理0或者数组最后一项的索引值；
+    
+例如： arr = [true, { a: 1 }, 100, null, 'yux']
+
+执行 sortArrayByIndex(arr, 3， 1) 后，arr的值变成（数组第4项变成第2项）：
+    [true, null, { a: 1 }, 100, 'yux']
+
+再次执行 sortArrayByIndex(arr, 3， 1) 后，arr的值变成：
+    [true, 100， null, { a: 1 }, 'yux']</pre>
+<div class="fix">
+	<div class="float-two">
+		<h3>测试入口：</h3>
+		<p class="gray">// <output class="methodName"></output>代码粘贴在这里，sortArrayByIndex函数前面不需要的const或let</p>
+		<textarea name="" id="codeArea" cols="30" rows="8"></textarea>
+        <p><a href="javascript:" id="button" class="btn btn-blue">开始测试</a></p>
+	</div>
+	<div class="float-two">
+		<div class="pl15">
+			<h3>测试结果</h3>
+			<div id="result1" class="result"></div>
+		</div>
+	</div>
+</div>
+
+<script>
+arr2str = function (arr) {
+    if (!arr) {
+        return '';
+    }
+    
+    return JSON.stringify({
+        a: arr
+    }).split(':[')[1].split(']}')[0];
+};
+
+let someArr = function (arrA, arrB) {
+    if (arrA.length != arrB.length) {
+        return false;
+    }
+
+    return arrA.every(function (valueA, index) {
+        let valueB = arrB[index];
+        if (valueA === valueB) {
+            return true;
+        }
+        if (typeof valueA == 'object' && typeof valueB == 'object' && valueA.a === valueB.a) {
+            return true;
+        }
+        return false;
+    });
+};
+
+button.onclick = function () {
+	if (codeArea.value) {
+		window.eval(codeArea.value);
+
+        let arr = [true, { a: 1 }, 100, null, 'yux'];
+
+		// 开始比较
+		var html1 = '';
+
+        try {
+            
+            sortArrayByIndex(arr, 3, 1);
+            var expectResult1 = [true, null, { a: 1 }, 100, 'yux'];
+
+            var text1 = `成功运行sortArrayByIndex(arr, 3, 1)方法，预期结果是[${arr2str(expectResult1)}]，实际结果是[${arr2str(arr)}]，两者`;
+            if (someArr(expectResult1, arr)) {
+                text1 += '相等，测试通过。';
+                html1 += `<x-success>${text1}</x-success>`;
+            } else {
+                text1 += '不相等，测试不通过。';
+                html1 += `<x-error>${text1}</x-error>`;
+            }
+
+            sortArrayByIndex(arr, 3, 1);
+            var expectResult2 = [true, 100, null, { a: 1 }, 'yux'];
+
+            var text2 = `再次成功运行sortArrayByIndex(arr, 3, 1)方法，预期结果是[${arr2str(expectResult2)}]，实际结果是[${arr2str(arr)}]，两者`;
+            if (someArr(expectResult2, arr)) {
+                text2 += '相等，测试通过。';
+                html1 += `<x-success>${text2}</x-success>`;
+            } else {
+                text2 += '不相等，测试不通过。';
+                html1 += `<x-error>${text2}</x-error>`;
+            }
+
+            sortArrayByIndex(arr, -1, 100);
+
+            text2 = `参数合法性测试，成功运行sortArrayByIndex(arr, -1, 100)方法，预期结果是[${arr2str(expectResult2)}]，实际结果是[${arr2str(arr)}]，两者`;
+            if (someArr(expectResult2, arr)) {
+                text2 += '相等，测试通过。';
+                html1 += `<x-success>${text2}</x-success>`;
+            } else {
+                text2 += '不相等，测试不通过。';
+                html1 += `<x-error>${text2}</x-error>`;
+            }
+
+            sortArrayByIndex(arr, 1, 100);
+            var expectResult3 = [true, null, { a: 1 }, 'yux', 100];
+
+            var text3 = `参数合法性测试，成功运行sortArrayByIndex(arr, 1, 100)方法，预期结果是[${arr2str(expectResult3)}]，实际结果是[${arr2str(arr)}]，两者`;
+            if (someArr(expectResult3, arr)) {
+                text3 += '相等，测试通过。';
+                html1 += `<x-success>${text3}</x-success>`;
+            } else {
+                text3 += '不相等，测试不通过。';
+                html1 += `<x-error>${text3}</x-error>`;
+            }
+
+        } catch (e) {
+            var textError = `sortArrayByIndex()方法执行失败，错误信息是：${e}`;
+            html1 += `<x-error>${textError}</x-error>`;
+        }
+
+		result1.innerHTML = html1;
+	}
+};
+
+</script>
+</body>
+</html>
