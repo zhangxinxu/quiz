@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="zhangxinxu">
+<title>JS小测57单元测试</title>
+<link rel="stylesheet" href="https://www.zhangxinxu.com/github/quickLayout/quick-layout-min.css">
+<style>
+h1 {
+	background-color: #333;
+	color: #fff;
+}
+input {
+	width: 50%;
+	box-sizing: border-box;
+	font-family: monaco, console, monospace;
+    padding: 5px 10px;
+}
+textarea {
+	width: 100%;
+	height: 280px;
+	font-family: monaco, console, monospace;
+	box-sizing: border-box;
+	resize: vertical;
+}
+x-success {
+	display: block;
+	background-color: green;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 0 0 0;
+	white-space: pre-wrap;
+}
+x-error {
+	display: block;
+	background-color: #EE5757;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 0 0 0;
+	white-space: pre-wrap;
+}
+.result:empty::before {
+	display: block;
+	margin: 5px 0 0 0;
+	content: '测试尚未开始';
+	color: gray;
+	text-align: center;
+	line-height: 100px;
+	background-color: #eee;
+	font-family: monaco, console, monospace;
+}
+</style>
+</head>
+<body>
+<h1>JS小测57单元测试</h1>
+<pre>请写一个名为stripHTML的方法，过滤字符串中所有的HTML标签，例如：
+
+let str = 'hello &lt;span &gt;world&lt;/span&gt;!&lt;br title="1&lt;br/&gt;2"&gt; youyou!';
+console.log(stripHTML(str)); // 返回值是'hello world! youyou!'</pre>
+<div class="fix">
+	<div class="float-two">
+		<h3>测试入口：</h3>
+		<p class="gray">// <output class="methodName"></output>代码粘贴在这里，stripHTML函数前面不需要的const或let</p>
+		<textarea name="" id="codeArea" cols="30" rows="8"></textarea>
+        <p><a href="javascript:" id="button" class="btn btn-blue">开始测试</a></p>
+	</div>
+	<div class="float-two">
+		<div class="pl15">
+			<h3>测试结果</h3>
+			<div id="result1" class="result"></div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+let data = [{
+    into: '<br>',
+    out: ''
+}, {
+    into: '<br 哈哈>',
+    out: ''
+}, {
+    into: '<br 哈哈> 哈哈 </br>',
+    out: ' 哈哈 '
+}, {
+    into: '<a href="javascript:" id="button" class="btn btn-blue">开始测试</a>',
+    out: '开始测试'
+}, {
+    into: '<UI-text>自定义 &lt; 元素<UI-text>',
+    out: '自定义 &lt; 元素'
+}, {
+    into: '<UI-text>2 < 3表示2小于3<UI-text>',
+    out: '2 < 3表示2小于3'
+}, {
+    into: 'hello <span >world</span>!<br title="1<br/>2"> youyou!',
+    out: 'hello world! youyou!'
+}];
+
+function encodeHTML (str) {
+    if (typeof str == 'string') {
+        return str.replace(/<|&|>/g, function (matches) {
+            return {
+                '<': '&lt;',
+                '>': '&gt;',
+                '&': '&amp;'
+            }[matches];
+        });
+    }
+
+    return '';
+}
+
+button.onclick = function () {
+	if (codeArea.value) {
+		window.eval(codeArea.value);
+
+		// 开始比较
+		var html1 = '';
+
+        try {
+
+            data.forEach(obj => {
+                var acturalResult = stripHTML(obj.into);
+                var expectResult = obj.out;
+
+                var text1 = `成功运行stripHTML('${encodeHTML(obj.into)}')方法，预期结果是 '${encodeHTML(expectResult)}' ，实际结果是 '${encodeHTML(acturalResult)}' ，两者`;
+                if (acturalResult == expectResult) {
+                    text1 += '相等，测试通过。';
+                    html1 += `<x-success>${text1}</x-success>`;
+                } else {
+                    text1 += '不相等，测试不通过。';
+                    html1 += `<x-error>${text1}</x-error>`;
+                }
+            });  
+
+        } catch (e) {
+            var textError = `stripHTML()方法执行失败，错误信息是：${e}`;
+            html1 += `<x-error>${textError}</x-error>`;
+        }
+
+		result1.innerHTML = html1;
+	}
+};
+
+</script>
+</body>
+</html>
