@@ -87,16 +87,16 @@ let data = [{
     into: [-100, 10, 0, 10, 100, 0, 0],
     out: 4
 }, {
-    into: [1,2,3,4,5,6,7,8,9],
+    into: [1,2,3,4,5,6,7,08,09],
     out: 5
 }, {
     into: [-1,-1,-1,1,2,3,4,4,4],
     out: 12/7
 }, {
-    into: [1,1,1,1,1,1,1,1,1],
+    into: [1,1,1,1,1,.1,1,1,01],
     out: 1
 }, {
-    into: [12.23, 12.23, 12.23],
+    into: [12.23, 12.23, 12.23, Math.PI],
     out: 12.23
 }, {
     into: [100.00, 99.00, 99.00, 100.00],
@@ -111,12 +111,12 @@ button.onclick = function () {
 		var html1 = '';
 
         try {
-
             data.forEach(obj => {
+                var originArr = [...obj.into];
                 var acturalResult = arrayFilterAverage(obj.into);
                 var expectResult = obj.out;
 
-                var text1 = `成功运行arrayFilterAverage('${arr2str(obj.into)}')方法，预期结果是 '${expectResult}' ，实际结果是 '${acturalResult}' ，两者`;
+                var text1 = `成功运行arrayFilterAverage([${arr2str(originArr)}])方法，预期结果是 ${expectResult} ，实际结果是 ${acturalResult} ，两者`;
                 if (acturalResult === expectResult) {
                     text1 += '相等，测试通过。';
                     html1 += `<x-success>${text1}</x-success>`;
