@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="zhangxinxu">
+<title>JS小测60单元测试</title>
+<link rel="stylesheet" href="https://www.zhangxinxu.com/github/quickLayout/quick-layout-min.css">
+<style>
+h1 {
+	background-color: #333;
+	color: #fff;
+}
+input {
+	width: 50%;
+	box-sizing: border-box;
+	font-family: monaco, console, monospace;
+    padding: 5px 10px;
+}
+textarea {
+	width: 100%;
+	height: 280px;
+	font-family: monaco, console, monospace;
+	box-sizing: border-box;
+	resize: vertical;
+}
+x-success {
+	display: block;
+	background-color: green;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 0 0 0;
+	white-space: pre-wrap;
+}
+x-error {
+	display: block;
+	background-color: #EE5757;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 0 0 0;
+	white-space: pre-wrap;
+}
+.result:empty::before {
+	display: block;
+	margin: 5px 0 0 0;
+	content: '测试尚未开始';
+	color: gray;
+	text-align: center;
+	line-height: 100px;
+	background-color: #eee;
+	font-family: monaco, console, monospace;
+}
+</style>
+</head>
+<body>
+<h1>JS小测60单元测试</h1>
+<pre>跳水比赛打分需要去掉一个最高分和最低分，请实现一个名为 arrayFilterAverage 的方法，算出一个数值数组去掉最高分和最低分后的平均分。
+
+    例如：arrayFilterAverage([10, 9.5, 9.3, 9.4, 9.3])  // 返回值是 9.4</pre>
+<div class="fix">
+	<div class="float-two">
+		<h3>测试入口：</h3>
+		<p class="gray">// <output class="methodName"></output>代码粘贴在这里，arrayFilterAverage 函数前面不需要的 const 或 let</p>
+		<textarea name="" id="codeArea" cols="30" rows="8"></textarea>
+        <p><a href="javascript:" id="button" class="btn btn-blue">开始测试</a></p>
+	</div>
+	<div class="float-two">
+		<div class="pl15">
+			<h3>测试结果</h3>
+			<div id="result1" class="result"></div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+arr2str = function (arr) {
+    if (!arr) {
+        return '';
+    }
+    
+    return JSON.stringify({
+        a: arr
+    }).split(':[')[1].split(']}')[0];
+};
+
+let data = [{
+    into: [-100, 10, 0, 10, 100, 0, 0],
+    out: 4
+}, {
+    into: [1,2,3,4,5,6,7,8,9],
+    out: 5
+}, {
+    into: [-1,-1,-1,1,2,3,4,4,4],
+    out: 12/7
+}, {
+    into: [1,1,1,1,1,1,1,1,1],
+    out: 1
+}, {
+    into: [12.23, 12.23, 12.23],
+    out: 12.23
+}, {
+    into: [100.00, 99.00, 99.00, 100.00],
+    out: 99.5
+}];
+
+button.onclick = function () {
+	if (codeArea.value) {
+		window.eval(codeArea.value);
+
+		// 开始比较
+		var html1 = '';
+
+        try {
+
+            data.forEach(obj => {
+                var acturalResult = arrayFilterAverage(obj.into);
+                var expectResult = obj.out;
+
+                var text1 = `成功运行arrayFilterAverage('${arr2str(obj.into)}')方法，预期结果是 '${expectResult}' ，实际结果是 '${acturalResult}' ，两者`;
+                if (acturalResult === expectResult) {
+                    text1 += '相等，测试通过。';
+                    html1 += `<x-success>${text1}</x-success>`;
+                } else {
+                    text1 += '不相等，测试不通过。';
+                    html1 += `<x-error>${text1}</x-error>`;
+                }
+            });
+        } catch (e) {
+            var textError = `arrayFilterAverage()方法执行失败，错误信息是：${e}`;
+            html1 += `<x-error>${textError}</x-error>`;
+        }
+
+		result1.innerHTML = html1;
+	}
+};
+
+</script>
+</body>
+</html>
