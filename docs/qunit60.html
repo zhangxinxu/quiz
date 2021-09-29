@@ -112,11 +112,11 @@ button.onclick = function () {
 
         try {
             data.forEach(obj => {
-                var originArr = [...obj.into];
-                var acturalResult = arrayFilterAverage(obj.into);
+                var arrCopy = [...obj.into];
+                var acturalResult = arrayFilterAverage(arrCopy);
                 var expectResult = obj.out;
 
-                var text1 = `成功运行arrayFilterAverage([${arr2str(originArr)}])方法，预期结果是 ${expectResult} ，实际结果是 ${acturalResult} ，两者`;
+                var text1 = `成功运行arrayFilterAverage([${arr2str(obj.into)}])方法，预期结果是 ${expectResult} ，实际结果是 ${acturalResult} ，两者`;
                 if (acturalResult === expectResult) {
                     text1 += '相等，测试通过。';
                     html1 += `<x-success>${text1}</x-success>`;
