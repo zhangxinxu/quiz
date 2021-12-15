@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="zhangxinxu">
+<title>JS小测63单元测试</title>
+<link rel="stylesheet" href="https://www.zhangxinxu.com/github/quickLayout/quick-layout-min.css">
+<style>
+h1 {
+	background-color: #333;
+	color: #fff;
+}
+input {
+	width: 50%;
+	box-sizing: border-box;
+	font-family: monaco, console, monospace;
+    padding: 5px 10px;
+}
+textarea {
+	width: 100%;
+	height: 280px;
+	font-family: monaco, console, monospace;
+	box-sizing: border-box;
+	resize: vertical;
+}
+x-success {
+	display: block;
+	background-color: green;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 0 0 0;
+	white-space: pre-wrap;
+}
+x-error {
+	display: block;
+	background-color: #EE5757;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 0 0 0;
+	white-space: pre-wrap;
+}
+.result:empty::before {
+	display: block;
+	margin: 5px 0 0 0;
+	content: '测试尚未开始';
+	color: gray;
+	text-align: center;
+	line-height: 100px;
+	background-color: #eee;
+	font-family: monaco, console, monospace;
+}
+</style>
+</head>
+<body>
+<h1>JS小测63单元测试</h1>
+<pre>已知某团队小测数据结构如下：
+
+    const jsonQuiz  = [{
+      "username": "张三",
+      "times": 24
+    }, {
+      "username": "李四",
+      "times": 1
+    }, {
+      "username": "王二",
+      "times": 6
+    }, {
+      "username": "麻子",
+      "times": 9
+    }];
+    
+    请写一个名为 urLucky  的方法，此方法支持一个参数，为每次抽奖抽中的人员数量，人员的中奖概率按照 times  次数分配。
+    
+    例如执行 urLucky(1)，张三、李四、王二、麻子中会有1人中奖，每人中奖概率分别是：60%，2.5%，15%，22.5%。
+    执行 urLucky(2)，会有2人中奖，执行 urLucky(4) 所有人中奖概率 100%。</pre>
+<div class="fix">
+	<div class="float-two">
+		<h3>测试入口：</h3>
+		<p class="gray">// <output class="methodName"></output>代码粘贴在这里，urLucky 函数前面不需要的 const 或 let</p>
+		<textarea name="" id="codeArea" cols="30" rows="8"></textarea>
+        <p><a href="javascript:" id="button" class="btn btn-blue">开始测试</a></p>
+	</div>
+	<div class="float-two">
+		<div class="pl15">
+			<h3>测试结果</h3>
+			<div id="result1" class="result"></div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+const originData  = [{
+  "username": "张三",
+  "times": 24
+}, {
+  "username": "李四",
+  "times": 1
+}, {
+  "username": "王二",
+  "times": 6
+}, {
+  "username": "麻子",
+  "times": 9
+}];
+
+let jsonQuiz = JSON.parse(JSON.stringify(originData));
+
+var loop = 10000;
+const run = function (num) {
+    var user1 = 0;
+    var user2 = 0;
+    var user3 = 0;
+    var user4 = 0;
+    // noprotect
+    for (var index = 0; index < loop; index+= 1) {
+        var user = urLucky(num);
+        if (user.indexOf('张三') != -1) {
+            user1++;
+        }
+        if (user.indexOf('李四') != -1) {
+            user2++;
+        }
+        if (user.indexOf('王二') != -1) {
+            user3++;
+        }
+        if (user.indexOf('麻子') != -1) {
+            user4++;
+        }
+    }
+
+    return [user1 / loop, user2 / loop, user3 / loop, user4 / loop];
+
+};
+
+var expect1 = [0.6, 0.025, 0.15, .225];
+var expect2 = [0.895, 0.073, 0.419, .613];
+var expect3 = [0.99, 0.185, 0.885, .94];
+var expect4 = [1, 1, 1, 1];
+
+const toPercent = function (arr) {
+    return arr.map(function (percent) {
+        return `${Math.round(10000 * percent) / 100}%`;
+    }).join();
+};
+
+const isSimilar = function (arrA, arrB) {
+    return arrA.every(function (val, index) {
+        var valB = arrB[index];
+        return Math.abs(val - valB) < 0.02;
+    });
+};
+
+
+button.onclick = function () {
+    jsonQuiz = JSON.parse(JSON.stringify(jsonQuiz));
+
+	if (codeArea.value) {
+		window.eval(codeArea.value);
+
+		// 开始比较
+		var html1 = '';
+
+        try {
+            [1, 2, 3, 4].forEach(times => {
+                var acturalResult = run(times);
+                var expectResult = window['expect' + times];
+
+                var text1 = `成功运行urLucky(${times})方法${loop}次，中奖概率是 ${toPercent(acturalResult)} ，和预期概率 ${toPercent(expectResult)}`;
+
+
+                if (isSimilar(acturalResult, expectResult)) {
+                    text1 += '接近，测试通过。';
+                    html1 += `<x-success>${text1}</x-success>`;
+                } else {
+                    text1 += '相差较大，测试不通过。';
+                    html1 += `<x-error>${text1}</x-error>`;
+                }
+            });
+        } catch (e) {
+            var textError = `urLucky()方法执行失败，错误信息是：${e}`;
+            html1 += `<x-error>${textError}</x-error>`;
+        }
+
+		result1.innerHTML = html1;
+	}
+};
+
+</script>
+</body>
+</html>
