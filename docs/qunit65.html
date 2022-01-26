@@ -67,7 +67,7 @@ let arrName = ['zhangsan', 'lisi'];
 <div class="fix">
 	<div class="float-two">
 		<h3>测试入口：</h3>
-		<p class="gray">// <output class="methodName"></output>代码粘贴在这里，pushName 函数前面不需要的 const 或 let</p>
+		<p class="gray">// <output class="methodName"></output>代码粘贴在这里，pushName 函数前面不需要的 const 或 let，arrName 不需要粘贴</p>
 		<textarea name="" id="codeArea" cols="30" rows="8"></textarea>
         <p><a href="javascript:" id="button" class="btn btn-blue">开始测试</a></p>
 	</div>
@@ -95,10 +95,10 @@ var originData = ['zhangsan.a', 'zhangsan', 'lisi', 'lisia', 'lisi0'];
 var arrName = [];
 
 button.onclick = function () {
-    arrName = [...originData];
-
 	if (codeArea.value) {
 		window.eval(codeArea.value);
+
+		arrName = [...originData];
 
 		// 开始比较
 		var html1 = '';
