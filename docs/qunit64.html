@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="zhangxinxu">
+<title>JS小测64单元测试</title>
+<link rel="stylesheet" href="https://www.zhangxinxu.com/github/quickLayout/quick-layout-min.css">
+<style>
+h1 {
+	background-color: #333;
+	color: #fff;
+}
+input {
+	width: 50%;
+	box-sizing: border-box;
+	font-family: monaco, console, monospace;
+    padding: 5px 10px;
+}
+textarea {
+	width: 100%;
+	height: 280px;
+	font-family: monaco, console, monospace;
+	box-sizing: border-box;
+	resize: vertical;
+}
+x-success {
+	display: block;
+	background-color: green;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 0 0 0;
+	white-space: pre-wrap;
+}
+x-error {
+	display: block;
+	background-color: #EE5757;
+	color: #fff;
+	padding: 10px;
+	margin: 5px 0 0 0;
+	white-space: pre-wrap;
+}
+.result:empty::before {
+	display: block;
+	margin: 5px 0 0 0;
+	content: '测试尚未开始';
+	color: gray;
+	text-align: center;
+	line-height: 100px;
+	background-color: #eee;
+	font-family: monaco, console, monospace;
+}
+</style>
+</head>
+<body>
+<h1>JS小测64单元测试</h1>
+<pre>已知有个数组，里面是团队所有人的姓名：
+
+let arrName = [...];
+
+此时，来了个新人，需要把这个名字加入这个数组，但是，名字有可能重复，请实现一个名为 pushName(name)的方法，如果之前名字不存在，则直接添加，如果之前名字已经有，则按照 name.a，name.b 这样的后缀添加。
+
+例如，已知：
+
+let arrName = ['zhangsan', 'lisi'];
+
+则执行 pushName('zhangsan') 之后，arrName 的数据应该是 ['zhangsan', 'lisi', 'zhangsan.a']</pre>
+<div class="fix">
+	<div class="float-two">
+		<h3>测试入口：</h3>
+		<p class="gray">// <output class="methodName"></output>代码粘贴在这里，pushName 函数前面不需要的 const 或 let</p>
+		<textarea name="" id="codeArea" cols="30" rows="8"></textarea>
+        <p><a href="javascript:" id="button" class="btn btn-blue">开始测试</a></p>
+	</div>
+	<div class="float-two">
+		<div class="pl15">
+			<h3>测试结果</h3>
+			<div id="result1" class="result"></div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+arr2str = function (arr) {
+    if (!arr) {
+        return '';
+    }
+    
+    return JSON.stringify({
+        a: arr
+    }).split(':[')[1].split(']}')[0];
+};
+
+var originData = ['zhangsan.a', 'zhangsan', 'lisi', 'lisia', 'lisi0'];
+var arrName = [];
+
+button.onclick = function () {
+    arrName = [...originData];
+
+	if (codeArea.value) {
+		window.eval(codeArea.value);
+
+		// 开始比较
+		var html1 = '';
+
+        try {
+            pushName('zhangsan');
+
+            var expectResult = ['zhangsan.a', 'zhangsan', 'lisi', 'lisia', 'lisi0', 'zhangsan.b'];
+
+
+            var text1 = `成功运行pushName('zhangsan')方法，预期结果是 ${arr2str(expectResult)} ，实际结果是 ${arr2str(arrName)} ，两者`;
+            if (arr2str(expectResult) === arr2str(arrName)) {
+                text1 += '相等，测试通过。';
+                html1 += `<x-success>${text1}</x-success>`;
+            } else {
+                text1 += '不相等，测试不通过。';
+                html1 += `<x-error>${text1}</x-error>`;
+            }
+
+            pushName('lisi');
+
+            expectResult = ['zhangsan.a', 'zhangsan', 'lisi', 'lisia', 'lisi0', 'zhangsan.b', 'lisi.a'];
+
+            text1 = `成功运行pushName('lisi')方法，预期结果是 ${arr2str(expectResult)} ，实际结果是 ${arr2str(arrName)} ，两者`;
+            if (arr2str(expectResult) === arr2str(arrName)) {
+                text1 += '相等，测试通过。';
+                html1 += `<x-success>${text1}</x-success>`;
+            } else {
+                text1 += '不相等，测试不通过。';
+                html1 += `<x-error>${text1}</x-error>`;
+            }
+
+            pushName('wanger');
+
+            expectResult = ['zhangsan.a', 'zhangsan', 'lisi', 'lisia', 'lisi0', 'zhangsan.b', 'lisi.a', 'wanger'];
+
+            text1 = `成功运行pushName('wanger')方法，预期结果是 ${arr2str(expectResult)} ，实际结果是 ${arr2str(arrName)} ，两者`;
+            if (arr2str(expectResult) === arr2str(arrName)) {
+                text1 += '相等，测试通过。';
+                html1 += `<x-success>${text1}</x-success>`;
+            } else {
+                text1 += '不相等，测试不通过。';
+                html1 += `<x-error>${text1}</x-error>`;
+            }
+        } catch (e) {
+            var textError = `pushName()方法执行失败，错误信息是：${e}`;
+            html1 += `<x-error>${textError}</x-error>`;
+        }
+
+		result1.innerHTML = html1;
+	}
+};
+
+</script>
+</body>
+</html>
